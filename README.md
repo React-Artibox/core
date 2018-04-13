@@ -9,7 +9,10 @@ Initialize modules
 // index.jsx
 
 import React from 'react';
-import { createConfigProvider } from 'react-artibox';
+import { 
+  createConfigProvide,
+  Base64ImageHandler,
+} from 'react-artibox';
 import AricleEditor from './ArticleEditor.jsx';
 
 type UploadResponseType = {
@@ -17,22 +20,7 @@ type UploadResponseType = {
 };
 
 const ArtiboxProvider = createConfigProvider({
-  onImageUpload: async (file) => {
-    if (!file) return null;
-  
-    const fd = new FormData();
-    fd.append('image', file);
-    
-    const response: UploadResponseType = await fetch('http://UPLOAD_URL', {
-      method: 'POST',
-      body: fd,
-    }).then(res => res.json());
-    
-    return response.filename;
-  },
-  resolveImageURL: (filename) => {
-    return `http://UPLOAD_PATH/${filename}`;
-  },
+  imageHandler: new Base64ImageHandler(),
 });
 
 function App() {
@@ -83,4 +71,32 @@ class ArticleEditor extends Component {
 }
 
 export default ArticleEditor;
+```
+
+Display on Viewer
+```javascript
+// ArticleViewer.jsx
+
+import React, { Component } from 'react';
+import Viewer from 'react-artibox/viewer';
+
+class ArticleViewer extends Component {
+  state = {
+    data: null,
+  }
+
+  componentDidMount() {
+    fetch('https://DATA_HOST/articles/2')
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({
+          data,
+        });
+      });
+  }
+
+  render() {
+    return <Viewer data={this.state.data} />;
+  }
+}
 ```
