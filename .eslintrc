@@ -33,9 +33,10 @@
       "nonEmpty": "after-props",
       "selfClosing": "after-props",
     }],
+    "no-bitwise": [0],
   },
 
   "settings": {
-    
+
   }
 }

@@ -15,13 +15,15 @@ import {
 
 const styles: {} = {
   wrapper: {
-    width: '100%',
+    position: 'absolute',
+    left: 16,
+    bottom: 12,
+    width: 'calc(100% - 32px)',
     height: 80,
     border: '2px solid #d2d2d2',
     borderRadius: 2,
     backgroundColor: '#f2f2f2',
     display: 'block',
-    position: 'relative',
     overflow: 'hidden',
   },
   placeholder: {

@@ -50,5 +50,8 @@
   "peerDependencies": {
     "react": "^16.3.1",
     "react-dom": "^16.3.1"
+  },
+  "dependencies": {
+    "debug": "^3.1.0"
   }
 }
