@@ -57,3 +57,9 @@ typings/
 # dotenv environment variables file
 .env
 
+# dev build
+examples/*.hot-update.json
+examples/*.hot-update.js
+examples/*.hot-update.js.map
+examples/bundle.js
+examples/bundle.js.map

@@ -9,15 +9,11 @@ Initialize modules
 // index.jsx
 
 import React from 'react';
-import { 
-  createConfigProvide,
+import {
+  createConfigProvider,
   Base64ImageHandler,
 } from 'react-artibox';
 import AricleEditor from './ArticleEditor.jsx';
-
-type UploadResponseType = {
-  filename: ?string,
-};
 
 const ArtiboxProvider = createConfigProvider({
   imageHandler: new Base64ImageHandler(),
