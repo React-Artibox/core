@@ -6,6 +6,7 @@ import IconSave from '../icons/IconSave';
 import { EditorContext } from '../context';
 import ArtiboxEditorBlockGenerator from './ArtiboxEditorBlockGenerator';
 import EditorTitle from './editors/EditorTitle';
+import EditorParagraph from './editors/EditorParagraph';
 import {
   TYPE_TITLE,
   TYPE_IMAGE,
@@ -64,6 +65,9 @@ class ArtiboxEditor extends PureComponent<Props, State> {
     switch (type) {
       case TYPE_TITLE:
         return EditorTitle.getInitialValues(blockID);
+
+      case TYPE_PARAGRAPH:
+        return EditorParagraph.getInitialValues(blockID);
 
       default:
         return null;
@@ -195,10 +199,18 @@ class ArtiboxEditor extends PureComponent<Props, State> {
           <header style={styles.header}>
             <IconSave scale={0.8} onClick={this.handleSubmit()} />
           </header>
-          {blocks.map((block) => {
+          {blocks.map((block, index) => {
             switch (block.type) {
               case TYPE_TITLE:
                 return <EditorTitle block={block} key={block.id} />;
+
+              case TYPE_PARAGRAPH:
+                return (
+                  <EditorParagraph
+                    isLastBlock={index === (blocks.length - 1)}
+                    block={block}
+                    key={block.id} />
+                );
 
               default:
                 return null;

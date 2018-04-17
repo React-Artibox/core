@@ -44,6 +44,16 @@ class EditorTitle extends Editor {
     };
   }
 
+  constructor(props) {
+    super(props);
+
+    this.input = React.createRef();
+  }
+
+  componentDidMount() {
+    this.input.current.focus();
+  }
+
   render() {
     const {
       block,
@@ -62,6 +72,7 @@ class EditorTitle extends Editor {
           }) => (
             <Fragment>
               <input
+                ref={this.input}
                 onChange={updateValue(block.id)}
                 value={selectValue(block.id)}
                 style={styles.input}
