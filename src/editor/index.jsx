@@ -32,7 +32,7 @@ const styles = {
     width: '100%',
     backgroundColor: '#fafafa',
     border: '1px solid #e2e2e2',
-    padding: '52px 16px 92px 16px',
+    padding: '52px 16px 104px 16px',
     borderRadius: 2,
     position: 'relative',
   },
