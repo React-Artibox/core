@@ -3,7 +3,6 @@
 import React from 'react';
 import Editor from './Editor';
 import { TYPE_TITLE } from '../../type';
-import IconTitle from '../../icons/IconTitle';
 import { EditorContext } from '../../context';
 import TextInput from './inputs/TitleInput';
 
@@ -11,7 +10,7 @@ const styles = {
   wrapper: {
     width: '100%',
     position: 'relative',
-    padding: '12px 0',
+    padding: 0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -48,9 +47,6 @@ class EditorTitle extends Editor {
   render() {
     return (
       <div style={styles.wrapper}>
-        <div style={styles.icon}>
-          <IconTitle scale={0.5} />
-        </div>
         <EditorContext.Consumer>
           {props => <TextInput {...props} {...this.props} />}
         </EditorContext.Consumer>

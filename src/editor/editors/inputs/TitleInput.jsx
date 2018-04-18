@@ -2,25 +2,24 @@
 
 import React, { Fragment, PureComponent } from 'react';
 import { inputResolver } from '../../../helper/input';
-import IconTrash from '../../../icons/IconTrash';
 
 const styles = {
   input: {
-    fontSize: '1.2em',
-    padding: '2px 10px',
+    fontSize: '1.5em',
+    padding: '0.25em 10px',
     letterSpacing: 1,
     lineHeight: 1.618,
-    border: '1px solid #f2f2f2',
+    border: 0,
     borderRadius: 2,
     outline: 'none',
     flexGrow: 1,
+    backgroundColor: '#efefef',
   },
 };
 
 type Props = {
   onChange: Function,
   value: string,
-  remove: Function,
   input: {
     current: ?Node,
   },
@@ -35,7 +34,6 @@ class TitleInput extends PureComponent<Props> {
     const {
       onChange,
       value,
-      remove,
       input,
     } = this.props;
 
@@ -48,11 +46,6 @@ class TitleInput extends PureComponent<Props> {
           style={styles.input}
           placeholder="Title"
           type="text" />
-        <button
-          onClick={remove}
-          type="button">
-          <IconTrash scale={0.5} />
-        </button>
       </Fragment>
     );
   }
