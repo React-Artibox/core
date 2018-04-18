@@ -1,11 +1,11 @@
 // @flow
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import Editor from './Editor';
 import { TYPE_TITLE } from '../../type';
 import IconTitle from '../../icons/IconTitle';
-import IconTrash from '../../icons/IconTrash';
 import { EditorContext } from '../../context';
+import TextInput from './inputs/TitleInput';
 
 const styles = {
   wrapper: {
@@ -41,50 +41,18 @@ class EditorTitle extends Editor {
       ...super.getInitialValues(blockID),
       type: EditorTitle.type,
       value: '',
+      input: React.createRef(),
     };
   }
 
-  constructor(props) {
-    super(props);
-
-    this.input = React.createRef();
-  }
-
-  componentDidMount() {
-    this.input.current.focus();
-  }
-
   render() {
-    const {
-      block,
-    } = this.props;
-
     return (
       <div style={styles.wrapper}>
         <div style={styles.icon}>
           <IconTitle scale={0.5} />
         </div>
         <EditorContext.Consumer>
-          {({
-            updateValue,
-            selectValue,
-            removeBlock,
-          }) => (
-            <Fragment>
-              <input
-                ref={this.input}
-                onChange={updateValue(block.id)}
-                value={selectValue(block.id)}
-                style={styles.input}
-                placeholder="Title"
-                type="text" />
-              <button
-                onClick={() => removeBlock(block.id)}
-                type="button">
-                <IconTrash scale={0.5} />
-              </button>
-            </Fragment>
-          )}
+          {props => <TextInput {...props} {...this.props} />}
         </EditorContext.Consumer>
       </div>
     );

@@ -94,24 +94,32 @@ class ArtiboxEditor extends PureComponent<Props, State> {
   }
 
   removeBlock(id) {
-    const {
-      blocks,
-    } = this.state;
+    return () => {
+      const {
+        blocks,
+      } = this.state;
 
-    const blockIndex = blocks.findIndex(b => b.id === id);
+      const blockIndex = blocks.findIndex(b => b.id === id);
 
-    if (!~blockIndex) {
-      debugEditor(`Cannot found target block: ${id}`);
+      if (!~blockIndex) {
+        debugEditor(`Cannot found target block: ${id}`);
 
-      return;
-    }
+        return;
+      }
 
-    this.setState({
-      blocks: [
-        ...blocks.slice(0, blockIndex),
-        ...blocks.slice(blockIndex + 1),
-      ],
-    });
+      const prevBlock = blocks[blockIndex - 1];
+
+      this.setState({
+        blocks: [
+          ...blocks.slice(0, blockIndex),
+          ...blocks.slice(blockIndex + 1),
+        ],
+      });
+
+      if (prevBlock && prevBlock.input.current) {
+        prevBlock.input.current.focus();
+      }
+    };
   }
 
   selectValue(id) {
@@ -136,6 +144,7 @@ class ArtiboxEditor extends PureComponent<Props, State> {
     } = this.state;
 
     return (e) => {
+      const value = e.constructor.name === 'SyntheticEvent' ? e.target.value : e;
       const blockIndex = blocks.findIndex(b => b.id === id);
 
       if (!~blockIndex) {
@@ -149,7 +158,7 @@ class ArtiboxEditor extends PureComponent<Props, State> {
           ...blocks.slice(0, blockIndex),
           {
             ...blocks[blockIndex],
-            value: e.target.value,
+            value,
           },
           ...blocks.slice(blockIndex + 1),
         ],
