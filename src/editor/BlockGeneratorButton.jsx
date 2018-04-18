@@ -14,6 +14,7 @@ const styles = {
     margin: '0 3px',
     padding: 0,
     outline: 'none',
+    height: 32,
   },
 };
 

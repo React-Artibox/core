@@ -20,7 +20,7 @@ const styles = {
     width: '100%',
     backgroundColor: '#efefef',
     outline: 'none',
-    padding: '0.25em 0.5em',
+    padding: '0.25em 10px',
     minHeight: '1.618em',
     border: 0,
     overflow: 'hidden',

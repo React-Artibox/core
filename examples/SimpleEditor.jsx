@@ -16,7 +16,8 @@ const ArtiboxProvider = createConfigProvider({
 const styles = {
   wrapper: {
     width: '100%',
-    margin: '32px auto',
+    margin: '0 auto',
+    padding: '32px 0',
     maxWidth: 720,
   },
 };
