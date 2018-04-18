@@ -8,7 +8,9 @@ import {
 } from '../src/index';
 
 const ArtiboxProvider = createConfigProvider({
-  imageHandler: new Base64ImageHandler(),
+  handlers: {
+    image: new Base64ImageHandler(),
+  },
 });
 
 const styles = {

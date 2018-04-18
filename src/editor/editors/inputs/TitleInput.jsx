@@ -7,7 +7,7 @@ import { TYPE_PARAGRAPH } from '../../../type';
 const styles = {
   input: {
     fontSize: '1.75em',
-    padding: '0.4em 10px 0.15em 10px',
+    padding: '0.4em 0.5em 0.15em 0.5em',
     letterSpacing: 1,
     lineHeight: 1.618,
     border: 0,
