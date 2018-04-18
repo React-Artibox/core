@@ -29,9 +29,7 @@ type Props = {
   input: {
     current: ?Node,
   },
-  meta: {
-    createBlock: Function,
-  },
+  insertBlock: Function,
 };
 
 class TitleInput extends PureComponent<Props> {
@@ -47,9 +45,7 @@ class TitleInput extends PureComponent<Props> {
     const {
       remove,
       value,
-      meta: {
-        createBlock,
-      },
+      insertBlock,
     } = this.props;
 
     switch (keyCode) {
@@ -58,7 +54,7 @@ class TitleInput extends PureComponent<Props> {
         break;
 
       case 13:
-        createBlock(TYPE_PARAGRAPH);
+        insertBlock(TYPE_PARAGRAPH);
         break;
 
       default:

@@ -38,9 +38,7 @@ type Props = {
   onChange: Function,
   value: string,
   remove: Function,
-  meta: {
-    createBlock: Function,
-  },
+  insertBlock: Function,
   input: {
     current: ?Node,
   },
@@ -85,13 +83,11 @@ class ParagraphInput extends PureComponent<Props> {
   updateValueHandler(value) {
     const {
       onChange,
-      meta: {
-        createBlock,
-      },
+      insertBlock,
     } = this.props;
 
     if (value.match(/\n/)) {
-      createBlock(TYPE_PARAGRAPH);
+      insertBlock(TYPE_PARAGRAPH);
 
       return;
     }

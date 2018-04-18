@@ -76,7 +76,7 @@ class ArtiboxEditor extends PureComponent<Props, State> {
     }
   }
 
-  createBlock(type) {
+  createBlock(type, afterId) {
     const {
       blockID,
       blocks,
@@ -85,6 +85,23 @@ class ArtiboxEditor extends PureComponent<Props, State> {
     const blockInitialValues = this.getEditorInitialValues(type);
 
     if (!blockInitialValues) return;
+
+    if (afterId) {
+      const index = blocks.findIndex(b => b.id === afterId);
+
+      if (~index) {
+        this.setState({
+          blocks: [
+            ...blocks.slice(0, index + 1),
+            blockInitialValues,
+            ...blocks.slice(index + 1),
+          ],
+          blockID: blockID - 1,
+        });
+
+        return;
+      }
+    }
 
     this.setState({
       blocks: [
@@ -203,10 +220,10 @@ class ArtiboxEditor extends PureComponent<Props, State> {
     return (
       <EditorContext.Provider
         value={{
-          updateValue: id => this.updateValue(id),
-          selectValue: id => this.selectValue(id),
-          createBlock: type => this.createBlock(type),
-          removeBlock: id => this.removeBlock(id),
+          updateValue: (...args) => this.updateValue(...args),
+          selectValue: (...args) => this.selectValue(...args),
+          createBlock: (...args) => this.createBlock(...args),
+          removeBlock: (...args) => this.removeBlock(...args),
           blocks,
           meta,
         }}>

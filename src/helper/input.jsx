@@ -6,6 +6,7 @@ type Props = {
   removeBlock: Function,
   selectValue: Function,
   updateValue: Function,
+  createBlock: Function,
   block: {
     id: number,
     input: {
@@ -20,6 +21,7 @@ export function inputResolver(Input: ComponentType) {
       selectValue,
       updateValue,
       removeBlock,
+      createBlock,
       block: {
         id,
         input,
@@ -29,6 +31,7 @@ export function inputResolver(Input: ComponentType) {
     return (
       <Input
         input={input}
+        insertBlock={type => createBlock(type, id)}
         value={selectValue(id)}
         onChange={updateValue(id)}
         remove={removeBlock(id)}
