@@ -56,7 +56,7 @@ class ParagraphInput extends PureComponent<Props> {
     ta.style.height = `${ta.scrollHeight}px`;
   }
 
-  handleKeyDown(code) {
+  handleKeyUp(code) {
     const {
       remove,
       value,
@@ -70,6 +70,8 @@ class ParagraphInput extends PureComponent<Props> {
       default:
         break;
     }
+
+    this.updateHeight();
   }
 
   updateValueHandler(value) {
@@ -100,11 +102,10 @@ class ParagraphInput extends PureComponent<Props> {
         <textarea
           ref={input}
           onPaste={() => this.updateHeight()}
-          onKeyDown={({
+          onKeyUp={({
             keyCode,
             which,
-          }) => this.handleKeyDown(keyCode || which)}
-          onKeyUp={() => this.updateHeight()}
+          }) => this.handleKeyUp(keyCode || which)}
           onChange={({
             target: { value: v },
           }) => this.updateValueHandler(v)}
