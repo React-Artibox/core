@@ -12,7 +12,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#efefef',
+    backgroundColor: '#fafafa',
     padding: '0.25em 0.5em',
   },
   input: {

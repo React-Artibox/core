@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Fragment, PureComponent } from 'react';
+import { mixer } from '../../../helper/style';
 import { inputResolver } from '../../../helper/input';
 import { TYPE_PARAGRAPH } from '../../../type';
 
@@ -18,7 +19,7 @@ const styles = {
     lineHeight: 1.618,
     resize: 'none',
     width: '100%',
-    backgroundColor: '#efefef',
+    backgroundColor: '#fafafa',
     outline: 'none',
     padding: '0.25em 10px',
     minHeight: '1.618em',
@@ -27,6 +28,9 @@ const styles = {
   },
   wrapperLast: {
     padding: '0 0 12px 0',
+  },
+  inputFocus: {
+    backgroundColor: '#efefef',
   },
 };
 
@@ -43,6 +47,10 @@ type Props = {
 };
 
 class ParagraphInput extends PureComponent<Props> {
+  state = {
+    isFocus: false,
+  }
+
   componentDidMount() {
     this.updateHeight();
 
@@ -97,6 +105,10 @@ class ParagraphInput extends PureComponent<Props> {
       input,
     } = this.props;
 
+    const {
+      isFocus,
+    } = this.state;
+
     return (
       <Fragment>
         <textarea
@@ -109,8 +121,13 @@ class ParagraphInput extends PureComponent<Props> {
           onChange={({
             target: { value: v },
           }) => this.updateValueHandler(v)}
+          onFocus={() => this.setState({ isFocus: true })}
+          onBlur={() => this.setState({ isFocus: false })}
           value={value}
-          style={styles.input}
+          style={mixer([
+            styles.input,
+            isFocus && styles.inputFocus,
+          ])}
           placeholder="Paragraph" />
       </Fragment>
     );

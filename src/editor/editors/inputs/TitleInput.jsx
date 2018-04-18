@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Fragment, PureComponent } from 'react';
+import { mixer } from '../../../helper/style';
 import { inputResolver } from '../../../helper/input';
 import { TYPE_PARAGRAPH } from '../../../type';
 
@@ -14,6 +15,9 @@ const styles = {
     borderRadius: 2,
     outline: 'none',
     flexGrow: 1,
+    backgroundColor: '#fafafa',
+  },
+  inputFocus: {
     backgroundColor: '#efefef',
   },
 };
@@ -31,6 +35,10 @@ type Props = {
 };
 
 class TitleInput extends PureComponent<Props> {
+  state = {
+    isFocus: false,
+  }
+
   componentDidMount() {
     this.props.input.current.focus();
   }
@@ -65,6 +73,10 @@ class TitleInput extends PureComponent<Props> {
       input,
     } = this.props;
 
+    const {
+      isFocus,
+    } = this.state;
+
     return (
       <Fragment>
         <input
@@ -75,7 +87,12 @@ class TitleInput extends PureComponent<Props> {
           ref={input}
           onChange={onChange}
           value={value}
-          style={styles.input}
+          onFocus={() => this.setState({ isFocus: true })}
+          onBlur={() => this.setState({ isFocus: false })}
+          style={mixer([
+            styles.input,
+            isFocus && styles.inputFocus,
+          ])}
           placeholder="Title"
           type="text" />
       </Fragment>
