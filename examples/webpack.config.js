@@ -1,19 +1,14 @@
 // @flow
 
 const path = require('path');
-
-const NODE_ENV = process.env.NODE_ENV || 'development';
-
-const developmentEntries = [
-  'react-hot-loader/patch',
-  'webpack/hot/only-dev-server',
-];
+const webpack = require('webpack');
 
 module.exports = {
-  devtool: NODE_ENV !== 'production' ? 'source-map' : false,
-  mode: NODE_ENV || 'development',
+  devtool: 'inline-source-map',
+  mode: 'development',
   entry: [
-    ...(NODE_ENV !== 'production' ? developmentEntries : []),
+    'react-hot-loader/patch',
+    // 'webpack/hot/only-dev-server',
     path.resolve(__dirname, 'entry.jsx'),
   ],
   output: {
@@ -23,6 +18,16 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ],
+  devServer: {
+    contentBase: __dirname,
+    port: 5180,
+    progress: true,
+    hot: true,
+    historyApiFallback: true,
   },
   target: 'web',
   module: {
