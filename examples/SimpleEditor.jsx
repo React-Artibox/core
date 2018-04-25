@@ -1,6 +1,8 @@
 // @flow
+/* eslint import/no-extraneous-dependencies: 0 */
 
 import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
 import {
   Base64ImageHandler,
   createConfigProvider,
@@ -8,6 +10,7 @@ import {
 } from '../src/index';
 
 const ArtiboxProvider = createConfigProvider({
+  minimap: true,
   handlers: {
     image: new Base64ImageHandler(),
   },
@@ -31,11 +34,16 @@ class SimpleEditor extends Component {
     return (
       <ArtiboxProvider>
         <div style={styles.wrapper}>
-          <Editor onSubmit={data => this.onSubmitData(data)} />
+          <Editor
+            name="TestEditors"
+            onSubmit={data => this.onSubmitData(data)} />
+          <Editor
+            name="TestEditors222"
+            onSubmit={data => this.onSubmitData(data)} />
         </div>
       </ArtiboxProvider>
     );
   }
 }
 
-export default SimpleEditor;
+export default hot(module)(SimpleEditor);

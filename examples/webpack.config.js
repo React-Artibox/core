@@ -8,7 +8,6 @@ module.exports = {
   mode: 'development',
   entry: [
     'react-hot-loader/patch',
-    // 'webpack/hot/only-dev-server',
     path.resolve(__dirname, 'entry.jsx'),
   ],
   output: {
