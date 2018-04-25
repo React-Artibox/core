@@ -7,6 +7,7 @@ import {
   Base64ImageHandler,
   createConfigProvider,
   Editor,
+  Minimap,
 } from '../src/index';
 
 const ArtiboxProvider = createConfigProvider({
@@ -23,6 +24,14 @@ const styles = {
     padding: '32px 0',
     maxWidth: 720,
   },
+  minimap: {
+    width: 150,
+    position: 'fixed',
+    right: 12,
+    top: 12,
+    borderRadius: 2,
+    boxShadow: '-1px 4px 12px rgba(0, 0, 0, 0.08)',
+  },
 };
 
 class SimpleEditor extends Component {
@@ -37,9 +46,9 @@ class SimpleEditor extends Component {
           <Editor
             name="TestEditors"
             onSubmit={data => this.onSubmitData(data)} />
-          <Editor
-            name="TestEditors222"
-            onSubmit={data => this.onSubmitData(data)} />
+          <div style={styles.minimap}>
+            <Minimap name="TestEditors" />
+          </div>
         </div>
       </ArtiboxProvider>
     );

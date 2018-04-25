@@ -34,6 +34,7 @@
       "selfClosing": "after-props",
     }],
     "no-bitwise": [0],
+    "no-console": ["error", { allow: ["warn", "error"] }],
   },
 
   "settings": {
