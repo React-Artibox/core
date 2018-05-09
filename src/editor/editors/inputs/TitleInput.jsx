@@ -16,9 +16,21 @@ const styles = {
     outline: 'none',
     flexGrow: 1,
     backgroundColor: '#fafafa',
+    color: 'transparent',
+    caretColor: '#4a4a4a',
   },
   inputFocus: {
     backgroundColor: '#efefef',
+  },
+  preview: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: 'transparent',
+    pointerEvents: 'none',
+    color: 'default',
+    wordWrap: 'break-word',
+    whiteSpace: 'pre-wrap',
   },
 };
 
@@ -91,6 +103,13 @@ class TitleInput extends PureComponent<Props> {
           ])}
           placeholder="Title"
           type="text" />
+        <div
+          style={{
+            ...styles.input,
+            ...styles.preview,
+          }}>
+          {value}
+        </div>
       </Fragment>
     );
   }

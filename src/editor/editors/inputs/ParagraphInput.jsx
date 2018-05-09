@@ -25,12 +25,25 @@ const styles = {
     minHeight: '1.618em',
     border: 0,
     overflow: 'hidden',
+    color: 'transparent',
+    caretColor: '#4a4a4a',
   },
   wrapperLast: {
     padding: '0 0 12px 0',
   },
   inputFocus: {
     backgroundColor: '#efefef',
+  },
+  preview: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: 'transparent',
+    pointerEvents: 'none',
+    color: 'default',
+    width: '100%',
+    wordWrap: 'break-word',
+    whiteSpace: 'pre-wrap',
   },
 };
 
@@ -125,6 +138,13 @@ class ParagraphInput extends PureComponent<Props> {
             isFocus && styles.inputFocus,
           ])}
           placeholder="Paragraph" />
+        <div
+          style={{
+            ...styles.input,
+            ...styles.preview,
+          }}>
+          {value}
+        </div>
       </Fragment>
     );
   }
