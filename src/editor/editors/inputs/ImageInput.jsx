@@ -131,7 +131,13 @@ class ImageInput extends PureComponent<Props> {
     const isImageLoaded = width && height && shownImage;
 
     return (
-      <div style={styles.wrapper} ref={this.wrapper}>
+      <div
+        role="button"
+        tabIndex="-1"
+        onKeyPress={() => input.current.focus()}
+        onClick={() => input.current.focus()}
+        style={styles.wrapper}
+        ref={this.wrapper}>
         {isImageLoaded ? (
           <div style={styles.imageWrapper}>
             <img src={shownImage} width={width} height={height} alt="" style={styles.image} />
