@@ -22,13 +22,6 @@ function IconParagraph(props) {
         fontSize="18">
         a
       </text>
-      <rect
-        width="36"
-        height="28"
-        rx="4"
-        ry="4"
-        x="2"
-        y="2" />
     </Icon>
   );
 }

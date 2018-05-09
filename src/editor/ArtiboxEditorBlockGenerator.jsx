@@ -13,10 +13,7 @@ import {
 
 const styles: {} = {
   wrapper: {
-    position: 'absolute',
-    left: 16,
-    bottom: 12,
-    width: 'calc(100% - 32px)',
+    width: '100%',
     height: 48,
     borderRadius: 2,
     backgroundColor: '#f2f2f2',

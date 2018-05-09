@@ -21,19 +21,22 @@ const styles = {
     width: '100%',
     backgroundColor: '#fafafa',
     border: '1px solid #e2e2e2',
-    padding: '52px 16px 72px 16px',
+    padding: '112px 16px 12px 16px',
     borderRadius: 2,
     position: 'relative',
   },
   header: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
     width: 'calc(100% - 32px)',
-    height: 40,
+    height: 88,
     position: 'absolute',
     top: 12,
     left: 16,
+  },
+  topActions: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '4px 0',
   },
 };
 
@@ -63,7 +66,10 @@ class ArtiboxEditorView extends PureComponent<Props> {
         }}>
         <div style={styles.wrapper}>
           <header style={styles.header}>
-            <IconSave scale={0.8} onClick={editor.handleSubmit()} />
+            <div style={styles.topActions}>
+              <IconSave scale={0.8} onClick={editor.handleSubmit()} />
+            </div>
+            <ArtiboxEditorBlockGenerator />
           </header>
           {editor.blocks.map((block) => {
             switch (block.type) {
@@ -80,7 +86,6 @@ class ArtiboxEditorView extends PureComponent<Props> {
                 return null;
             }
           })}
-          <ArtiboxEditorBlockGenerator />
         </div>
       </EditorContext.Provider>
     );
