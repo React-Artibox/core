@@ -3,10 +3,6 @@
 import React from 'react';
 import Editor from './Editor';
 import { TYPE_IMAGE } from '../../type';
-import {
-  EditorContext,
-  ConfigContext,
-} from '../../context';
 import ImageInput from './inputs/ImageInput';
 
 const styles = {
@@ -48,28 +44,24 @@ class EditorImage extends Editor {
   }
 
   render() {
+    const {
+      block,
+      editorName,
+      createBlock,
+      removeBlock,
+      updateValue,
+    } = this.props;
+
     return (
       <div style={styles.wrapper}>
-        <EditorContext.Consumer>
-          {editorProps => (
-            <ConfigContext.Consumer>
-              {({
-                handlers: {
-                  image: {
-                    onChangeHook,
-                    getURL,
-                  },
-                },
-              }) => (
-                <ImageInput
-                  {...editorProps}
-                  {...this.props}
-                  updateValue={id => onChangeHook(editorProps.updateValue(id))}
-                  selectValue={id => getURL(editorProps.selectValue(id))} />
-              )}
-            </ConfigContext.Consumer>
-          )}
-        </EditorContext.Consumer>
+        <ImageInput
+          input={block.input}
+          value={block.value}
+          id={block.id}
+          editorName={editorName}
+          createBlock={createBlock}
+          removeBlock={removeBlock}
+          updateValue={updateValue} />
       </div>
     );
   }

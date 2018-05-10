@@ -2,11 +2,13 @@
 
 import React, { PureComponent } from 'react';
 import type { EditorType } from '../type';
-import { EditorContext } from '../context';
 
 type Props = {
   type: EditorType,
   children: Node,
+  createBlock: Function,
+  getActiveBlock: Function,
+  editorName: string,
 };
 
 type State = {
@@ -33,6 +35,9 @@ class BlockGeneratorButton extends PureComponent<Props, State> {
     const {
       type,
       children,
+      createBlock,
+      getActiveBlock,
+      editorName,
     } = this.props;
 
     const {
@@ -40,32 +45,25 @@ class BlockGeneratorButton extends PureComponent<Props, State> {
     } = this.state;
 
     return (
-      <EditorContext.Consumer>
-        {({
-          createBlock,
-          blocks,
-        }) => (
-          <button
-            onMouseEnter={() => {
-              const activedBlock = blocks.find(b =>
-                b.input.current === document.activeElement);
+      <button
+        onMouseEnter={() => {
+          const activedBlock = getActiveBlock(editorName);
 
-              if (activedBlock !== focusedBlock) {
-                this.setState({
-                  focusedBlock: activedBlock,
-                });
-              }
-            }}
-            onClick={() => createBlock(
-              type,
-              focusedBlock ? focusedBlock.id : null,
-            )}
-            style={styles.createBtn}
-            type="button">
-            {children}
-          </button>
+          if (activedBlock && activedBlock !== focusedBlock) {
+            this.setState({
+              focusedBlock: activedBlock,
+            });
+          }
+        }}
+        onClick={() => createBlock(
+          editorName,
+          type,
+          focusedBlock ? focusedBlock.id : null,
         )}
-      </EditorContext.Consumer>
+        style={styles.createBtn}
+        type="button">
+        {children}
+      </button>
     );
   }
 }

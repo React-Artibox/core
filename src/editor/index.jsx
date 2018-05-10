@@ -1,10 +1,7 @@
 // @flow
 
-import React, { PureComponent } from 'react';
-import {
-  EditorContext,
-  ConfigContext,
-} from '../context';
+import React from 'react';
+import { ConfigContext } from '../context';
 import {
   TYPE_TITLE,
   TYPE_IMAGE,
@@ -40,58 +37,6 @@ const styles = {
   },
 };
 
-type Props = {
-  editor: ArtiboxEditor,
-  blocks: Array<ArtiboxEditorBlock>,
-  meta: ArtiboxEditorMeta,
-};
-
-class ArtiboxEditorView extends PureComponent<Props> {
-  render() {
-    const {
-      editor,
-      blocks,
-      meta,
-    } = this.props;
-
-    return (
-      <EditorContext.Provider
-        value={{
-          updateValue: (...args) => editor.updateValue(...args),
-          selectValue: (...args) => editor.selectValue(...args),
-          createBlock: (...args) => editor.createBlock(...args),
-          removeBlock: (...args) => editor.removeBlock(...args),
-          blocks,
-          meta,
-        }}>
-        <div style={styles.wrapper}>
-          <header style={styles.header}>
-            <div style={styles.topActions}>
-              <IconSave scale={0.8} onClick={editor.handleSubmit()} />
-            </div>
-            <ArtiboxEditorBlockGenerator />
-          </header>
-          {editor.blocks.map((block) => {
-            switch (block.type) {
-              case TYPE_TITLE:
-                return <EditorTitle block={block} key={block.id} />;
-
-              case TYPE_PARAGRAPH:
-                return <EditorParagraph block={block} key={block.id} />;
-
-              case TYPE_IMAGE:
-                return <EditorImage block={block} key={block.id} />;
-
-              default:
-                return null;
-            }
-          })}
-        </div>
-      </EditorContext.Provider>
-    );
-  }
-}
-
 function ArtiboxEditorWrapper({
   name,
   onSubmit,
@@ -110,23 +55,81 @@ function ArtiboxEditorWrapper({
       {({
         editors,
         createNewEditor,
+        createBlock,
+        updateValue,
+        selectValue,
+        removeBlock,
+        handleSubmit,
+        getActiveBlock,
       }) => {
         const editor = editors[name];
 
         if (!editor) {
           createNewEditor({
-            onSubmit,
             name,
+            onSubmit,
           });
 
           return null;
         }
 
         return (
-          <ArtiboxEditorView
-            blocks={editor.blocks}
-            meta={editor.meta}
-            editor={editor} />
+          <div style={styles.wrapper}>
+            <header style={styles.header}>
+              <div style={styles.topActions}>
+                <IconSave scale={0.8} onClick={handleSubmit(editor)} />
+              </div>
+              <ArtiboxEditorBlockGenerator
+                createBlock={createBlock}
+                getActiveBlock={getActiveBlock}
+                editorName={name} />
+            </header>
+            {editor.blocks.map((block) => {
+              switch (block.type) {
+                case TYPE_TITLE:
+                  return (
+                    <EditorTitle
+                      editorName={name}
+                      createBlock={createBlock}
+                      selectValue={selectValue}
+                      updateValue={updateValue}
+                      removeBlock={removeBlock}
+                      handleSubmit={handleSubmit}
+                      block={block}
+                      key={block.id} />
+                  );
+
+                case TYPE_PARAGRAPH:
+                  return (
+                    <EditorParagraph
+                      editorName={name}
+                      createBlock={createBlock}
+                      selectValue={selectValue}
+                      updateValue={updateValue}
+                      removeBlock={removeBlock}
+                      handleSubmit={handleSubmit}
+                      block={block}
+                      key={block.id} />
+                  );
+
+                case TYPE_IMAGE:
+                  return (
+                    <EditorImage
+                      editorName={name}
+                      createBlock={createBlock}
+                      selectValue={selectValue}
+                      updateValue={updateValue}
+                      removeBlock={removeBlock}
+                      handleSubmit={handleSubmit}
+                      block={block}
+                      key={block.id} />
+                  );
+
+                default:
+                  return null;
+              }
+            })}
+          </div>
         );
     }}
     </ConfigContext.Consumer>

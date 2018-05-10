@@ -4,38 +4,36 @@ import React, { ComponentType } from 'react';
 
 type Props = {
   removeBlock: Function,
-  selectValue: Function,
   updateValue: Function,
   createBlock: Function,
-  block: {
-    id: number,
-    input: {
-      current: ?Node,
-    },
+  id: number,
+  input: {
+    current: ?Node,
   },
+  value: ?string,
+  editorName: string,
 };
 
 export function inputResolver(Input: ComponentType) {
   return function InputResolver(props: Props) {
     const {
-      selectValue,
       updateValue,
       removeBlock,
       createBlock,
-      block: {
-        id,
-        input,
-      },
+      id,
+      input,
+      value,
+      editorName,
     } = props;
 
     return (
       <Input
+        id={id}
         input={input}
-        insertBlock={type => createBlock(type, id)}
-        value={selectValue(id)}
-        onChange={updateValue(id)}
-        remove={removeBlock(id)}
-        meta={props} />
+        value={value}
+        onChange={e => updateValue(editorName, id, e)}
+        remove={() => removeBlock(editorName, id)}
+        insertBlock={type => createBlock(editorName, type, id)} />
     );
   };
 }

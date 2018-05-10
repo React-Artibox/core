@@ -3,7 +3,6 @@
 import React from 'react';
 import Editor from './Editor';
 import { TYPE_TITLE } from '../../type';
-import { EditorContext } from '../../context';
 import TitleInput from './inputs/TitleInput';
 
 const styles = {
@@ -29,11 +28,24 @@ class EditorTitle extends Editor {
   }
 
   render() {
+    const {
+      block,
+      editorName,
+      createBlock,
+      removeBlock,
+      updateValue,
+    } = this.props;
+
     return (
       <div style={styles.wrapper}>
-        <EditorContext.Consumer>
-          {props => <TitleInput {...props} {...this.props} />}
-        </EditorContext.Consumer>
+        <TitleInput
+          input={block.input}
+          value={block.value}
+          id={block.id}
+          editorName={editorName}
+          createBlock={createBlock}
+          removeBlock={removeBlock}
+          updateValue={updateValue} />
       </div>
     );
   }

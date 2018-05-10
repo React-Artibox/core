@@ -5,7 +5,6 @@ import Editor from './Editor';
 import { mixer } from '../../helper/style';
 import { TYPE_PARAGRAPH } from '../../type';
 import ParagraphInput from './inputs/ParagraphInput';
-import { EditorContext } from '../../context';
 
 const styles = {
   wrapper: {
@@ -30,14 +29,27 @@ class EditorParagraph extends Editor {
   }
 
   render() {
+    const {
+      block,
+      editorName,
+      createBlock,
+      removeBlock,
+      updateValue,
+    } = this.props;
+
     return (
       <div
         style={mixer([
           styles.wrapper,
         ])}>
-        <EditorContext.Consumer>
-          {props => <ParagraphInput {...props} {...this.props} />}
-        </EditorContext.Consumer>
+        <ParagraphInput
+          input={block.input}
+          value={block.value}
+          id={block.id}
+          editorName={editorName}
+          createBlock={createBlock}
+          removeBlock={removeBlock}
+          updateValue={updateValue} />
       </div>
     );
   }

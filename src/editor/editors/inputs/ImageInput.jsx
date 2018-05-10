@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
+import { ConfigContext } from '../../../context';
 import IconPhoto from '../../../icons/IconPhoto';
 import { inputResolver } from '../../../helper/input';
 
@@ -14,6 +15,7 @@ const styles = {
     justifyContent: 'center',
     backgroundColor: '#fafafa',
     padding: '0.25em 0.5em',
+    outline: 'none',
   },
   imageWrapper: {
     position: 'relative',
@@ -53,6 +55,7 @@ const styles = {
 
 type Props = {
   onChange: Function,
+  onChangeHook: Function,
   value: string,
   input: {
     current: ?Node,
@@ -117,6 +120,7 @@ class ImageInput extends PureComponent<Props> {
   render() {
     const {
       onChange,
+      onChangeHook,
       input,
     } = this.props;
 
@@ -151,7 +155,7 @@ class ImageInput extends PureComponent<Props> {
               <input
                 ref={input}
                 key={inputKey}
-                onChange={onChange}
+                onChange={onChangeHook(onChange)}
                 style={styles.input}
                 accept="image/*"
                 type="file" />
@@ -174,7 +178,7 @@ class ImageInput extends PureComponent<Props> {
               <input
                 ref={input}
                 key={inputKey}
-                onChange={onChange}
+                onChange={onChangeHook(onChange)}
                 style={styles.input}
                 accept="image/*"
                 type="file" />
@@ -186,4 +190,35 @@ class ImageInput extends PureComponent<Props> {
   }
 }
 
-export default inputResolver(ImageInput);
+function ImageConfigHandler({
+  onChange,
+  input,
+  value,
+}: {
+  onChange: Function,
+  input: {
+    current: ?Node,
+  },
+  value: string,
+}) {
+  return (
+    <ConfigContext.Consumer>
+      {({
+        handlers: {
+          image: {
+            onChangeHook,
+            getURL,
+          },
+        },
+      }) => (
+        <ImageInput
+          onChangeHook={onChangeHook}
+          onChange={onChange}
+          value={getURL(value)}
+          input={input} />
+      )}
+    </ConfigContext.Consumer>
+  );
+}
+
+export default inputResolver(ImageConfigHandler);

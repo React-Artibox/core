@@ -24,18 +24,38 @@ const styles: {} = {
   },
 };
 
-function ArtiboxEditorBlockGenerator() {
+function ArtiboxEditorBlockGenerator({
+  createBlock,
+  getActiveBlock,
+  editorName,
+}: {
+  createBlock: Function,
+  getActiveBlock: Function,
+  editorName: string,
+}) {
   return (
     <div
       role="presentation"
       style={styles.wrapper}>
-      <BlockGeneratorButton type={TYPE_TITLE}>
+      <BlockGeneratorButton
+        createBlock={createBlock}
+        getActiveBlock={getActiveBlock}
+        editorName={editorName}
+        type={TYPE_TITLE}>
         <IconTitle />
       </BlockGeneratorButton>
-      <BlockGeneratorButton type={TYPE_PARAGRAPH}>
+      <BlockGeneratorButton
+        createBlock={createBlock}
+        getActiveBlock={getActiveBlock}
+        editorName={editorName}
+        type={TYPE_PARAGRAPH}>
         <IconParagraph />
       </BlockGeneratorButton>
-      <BlockGeneratorButton type={TYPE_IMAGE}>
+      <BlockGeneratorButton
+        createBlock={createBlock}
+        getActiveBlock={getActiveBlock}
+        editorName={editorName}
+        type={TYPE_IMAGE}>
         <IconPhoto />
       </BlockGeneratorButton>
     </div>
