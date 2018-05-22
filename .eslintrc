@@ -29,6 +29,7 @@
   },
 
   "rules": {
+    "no-constant-condition": ["error", { "checkLoops": false }],
     "react/jsx-closing-bracket-location": [2, {
       "nonEmpty": "after-props",
       "selfClosing": "after-props",
