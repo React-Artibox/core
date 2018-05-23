@@ -40,6 +40,7 @@ class EditorImage extends Editor {
       type: EditorImage.type,
       value: '',
       input: React.createRef(),
+      descriptions: [],
     };
   }
 
@@ -50,6 +51,7 @@ class EditorImage extends Editor {
       createBlock,
       removeBlock,
       updateValue,
+      updateDescriptions,
     } = this.props;
 
     return (
@@ -58,6 +60,8 @@ class EditorImage extends Editor {
           input={block.input}
           value={block.value}
           id={block.id}
+          descriptions={block.descriptions}
+          updateDescriptions={updateDescriptions}
           editorName={editorName}
           createBlock={createBlock}
           removeBlock={removeBlock}

@@ -12,6 +12,12 @@ type Props = {
   },
   value: ?string,
   editorName: string,
+  updateDescriptions: Function,
+  descriptions: Array<{
+    type: 'DESC_HIGHLIGHT' | 'DESC_LINK',
+    from: number,
+    to: number,
+  }>,
 };
 
 export function inputResolver(Input: ComponentType) {
@@ -23,7 +29,9 @@ export function inputResolver(Input: ComponentType) {
       id,
       input,
       value,
+      descriptions,
       editorName,
+      updateDescriptions,
     } = props;
 
     return (
@@ -31,6 +39,8 @@ export function inputResolver(Input: ComponentType) {
         id={id}
         input={input}
         value={value}
+        descriptions={descriptions}
+        updateDescriptions={newDescriptions => updateDescriptions(editorName, id, newDescriptions)}
         onChange={e => updateValue(editorName, id, e)}
         remove={() => removeBlock(editorName, id)}
         insertBlock={type => createBlock(editorName, type, id)} />

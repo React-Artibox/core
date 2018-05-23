@@ -57,6 +57,7 @@ function ArtiboxEditorWrapper({
         createNewEditor,
         createBlock,
         updateValue,
+        updateDescriptions,
         selectValue,
         removeBlock,
         handleSubmit,
@@ -90,6 +91,7 @@ function ArtiboxEditorWrapper({
                   return (
                     <EditorTitle
                       editorName={name}
+                      updateDescriptions={updateDescriptions}
                       createBlock={createBlock}
                       selectValue={selectValue}
                       updateValue={updateValue}
@@ -103,6 +105,7 @@ function ArtiboxEditorWrapper({
                   return (
                     <EditorParagraph
                       editorName={name}
+                      updateDescriptions={updateDescriptions}
                       createBlock={createBlock}
                       selectValue={selectValue}
                       updateValue={updateValue}
@@ -116,6 +119,7 @@ function ArtiboxEditorWrapper({
                   return (
                     <EditorImage
                       editorName={name}
+                      updateDescriptions={updateDescriptions}
                       createBlock={createBlock}
                       selectValue={selectValue}
                       updateValue={updateValue}

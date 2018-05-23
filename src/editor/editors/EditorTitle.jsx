@@ -24,6 +24,7 @@ class EditorTitle extends Editor {
       type: EditorTitle.type,
       value: '',
       input: React.createRef(),
+      descriptions: [],
     };
   }
 
@@ -34,6 +35,7 @@ class EditorTitle extends Editor {
       createBlock,
       removeBlock,
       updateValue,
+      updateDescriptions,
     } = this.props;
 
     return (
@@ -42,6 +44,8 @@ class EditorTitle extends Editor {
           input={block.input}
           value={block.value}
           id={block.id}
+          descriptions={block.descriptions}
+          updateDescriptions={updateDescriptions}
           editorName={editorName}
           createBlock={createBlock}
           removeBlock={removeBlock}

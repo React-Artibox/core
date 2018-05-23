@@ -61,6 +61,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
         id: b.id,
         type: b.type,
         value: b.value,
+        descriptions: b.descriptions,
       })),
       ...meta,
     });
@@ -76,6 +77,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     this.boundCreateBlock = (...args) => this.createBlock(...args);
     this.boundHandleSubmit = (...args) => ArtiboxConfigProvider.handleSubmit(...args);
     this.boundCreateNewEditor = name => this.createNewEditor(name);
+    this.boundUpdateDescriptions = (...args) => this.updateDescriptions(...args);
   }
 
   state = {
@@ -219,6 +221,34 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     });
   }
 
+  updateDescriptions(name, id, descriptions) {
+    const { editors } = this.state;
+    const blockIndex = editors[name].blocks.findIndex(b => b.id === id);
+
+    if (!~blockIndex) {
+      debugEditor(`Cannot found target block: ${id}`);
+
+      return;
+    }
+
+    this.setState({
+      editors: {
+        ...editors,
+        [name]: {
+          ...editors[name],
+          blocks: [
+            ...editors[name].blocks.slice(0, blockIndex),
+            {
+              ...editors[name].blocks[blockIndex],
+              descriptions,
+            },
+            ...editors[name].blocks.slice(blockIndex + 1),
+          ],
+        },
+      },
+    });
+  }
+
   render() {
     const {
       children,
@@ -244,6 +274,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
           selectValue: this.boundSelectValue,
           updateValue: this.boundUpdateValue,
           createBlock: this.boundCreateBlock,
+          updateDescriptions: this.boundUpdateDescriptions,
           handleSubmit: this.boundHandleSubmit,
           createNewEditor: this.boundCreateNewEditor,
         }}>

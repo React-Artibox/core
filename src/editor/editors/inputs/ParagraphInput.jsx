@@ -1,4 +1,5 @@
 // @flow
+/* eslint prefer-spread: 0 */
 
 import React, { Fragment } from 'react';
 import { mixer } from '../../../helper/style';
@@ -60,20 +61,22 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    pointerEvents: 'none',
   },
   menuShown: {
     opacity: 1,
-    pointerEvents: 'cursor',
+    pointerEvents: 'auto',
     transform: 'scale(1) translate(0, 0)',
   },
   menuButton: {
     color: '#fff',
     fontSize: 13,
     fontWeight: 400,
-    lineHeight: 1.618,
     letterSpacing: 1,
-    padding: '2px 8px 2px 9px',
+    padding: '0 8px 0 9px',
     cursor: 'pointer',
+    height: '100%',
+    lineHeight: '26px',
   },
   triangle: {
     borderTop: '6px solid #121212',
@@ -83,12 +86,21 @@ const styles = {
     left: 'calc(50% - 3px)',
     bottom: -6,
     zIndex: 10,
+    pointerEvents: 'none',
   },
   spliter: {
     width: 1,
     height: '100%',
     backgroundColor: '#575757',
     display: 'block',
+  },
+  highlight: {
+    color: 'red',
+  },
+  link: {
+    textDecoration: 'none',
+    color: '#08c',
+    pointerEvents: 'auto',
   },
 };
 
@@ -103,6 +115,84 @@ type Props = {
 };
 
 class ParagraphInput extends RangeHandler<Props> {
+  static DESC_HIGHLIGHT = 'DESC/HIGHLIGHT'
+  static DESC_LINK = 'DESC/LINK'
+
+  static DESC_HIGHLIGHT_SYMBOL = '*';
+  static DESC_LINK_SYMBOL_FROM = 48;
+
+  static wrapDescriptions(value, descriptions) {
+    const wrappedStrings = [];
+
+    if (!descriptions.length) return value;
+
+    let workingDescIndex = 0;
+    let nodeContent = '';
+    let concatingType = null;
+
+    Array.from(value).forEach((char, index) => {
+      if (index === descriptions[workingDescIndex].to) {
+        // Flush
+        switch (concatingType) {
+          case ParagraphInput.DESC_HIGHLIGHT:
+            wrappedStrings.push((
+              <span key={workingDescIndex} style={styles.highlight}>{nodeContent}</span>
+            ));
+
+            nodeContent = '';
+            break;
+
+          case ParagraphInput.DESC_LINK:
+            wrappedStrings.push((
+              <a
+                href={descriptions[workingDescIndex].url}
+                target="_blank"
+                key={workingDescIndex}
+                style={styles.link}>
+                {nodeContent}
+              </a>
+            ));
+
+            nodeContent = '';
+            break;
+
+          default:
+            wrappedStrings.push(nodeContent);
+
+            nodeContent = '';
+            break;
+        }
+
+        if (descriptions[workingDescIndex + 1]) {
+          workingDescIndex += 1;
+        }
+      }
+
+      if (index === descriptions[workingDescIndex].from) {
+        // Flush Plain Text
+        switch (concatingType) {
+          default:
+            wrappedStrings.push(nodeContent);
+
+            nodeContent = '';
+            break;
+        }
+
+        concatingType = descriptions[workingDescIndex].type;
+      }
+
+      nodeContent = `${nodeContent}${char}`;
+    });
+
+    wrappedStrings.push(nodeContent);
+
+    return (
+      <Fragment>
+        {wrappedStrings}
+      </Fragment>
+    );
+  }
+
   state = {
     isFocus: false,
     menuX: null,
@@ -197,10 +287,141 @@ class ParagraphInput extends RangeHandler<Props> {
     onChange(value);
   }
 
+  highlightSelection() {
+    const {
+      input: {
+        current: textarea,
+      },
+    } = this.props;
+
+    if (textarea.selectionStart === textarea.selectionEnd) {
+      return;
+    }
+
+    this.updateDescriptions({
+      type: ParagraphInput.DESC_HIGHLIGHT,
+      from: textarea.selectionStart,
+      to: textarea.selectionEnd,
+    });
+  }
+
+  linkSelection() {
+    const {
+      input: {
+        current: textarea,
+      },
+    } = this.props;
+
+    if (textarea.selectionStart === textarea.selectionEnd) {
+      return;
+    }
+
+    this.updateDescriptions({
+      type: ParagraphInput.DESC_LINK,
+      from: textarea.selectionStart,
+      to: textarea.selectionEnd,
+      url: `https://rytass.com/?target=${Math.random()}`,
+    });
+  }
+
+  updateDescriptions(description) {
+    const {
+      descriptions,
+      updateDescriptions,
+      value,
+    } = this.props;
+
+    let valueStr = Array.apply(null, { length: value.length }).map(() => '.').join('');
+    let linkCursor = ParagraphInput.DESC_LINK_SYMBOL_FROM;
+    const linkMap = new Map();
+
+    [
+      ...descriptions,
+      description,
+    ].forEach((desc) => {
+      switch (desc.type) {
+        case ParagraphInput.DESC_HIGHLIGHT:
+          Array.apply(null, { length: desc.to - desc.from }).forEach((n, index) => {
+            valueStr = `${valueStr.substring(0, index + desc.from)}${ParagraphInput.DESC_HIGHLIGHT_SYMBOL}${valueStr.substring(index + desc.from + 1)}`;
+          });
+          break;
+
+        case ParagraphInput.DESC_LINK:
+          linkCursor += 1;
+          linkMap.set(String.fromCharCode(linkCursor), desc.url);
+
+          Array.apply(null, { length: desc.to - desc.from }).forEach((n, index) => {
+            valueStr = `${valueStr.substring(0, index + desc.from)}${String.fromCharCode(linkCursor)}${valueStr.substring(index + desc.from + 1)}`;
+          });
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    const newDescriptions = [];
+    let isFindingEnd = false;
+    let workingLinkCursor = null;
+
+    Array.from(valueStr).forEach((str, index) => {
+      if (index === 0 || valueStr[index] !== valueStr[index - 1]) {
+        if (isFindingEnd) {
+          switch (valueStr[index - 1]) {
+            case ParagraphInput.DESC_HIGHLIGHT_SYMBOL:
+              newDescriptions[newDescriptions.length - 1].to = index;
+
+              isFindingEnd = false;
+              break;
+
+            default:
+              if (valueStr[index - 1] === workingLinkCursor) {
+                newDescriptions[newDescriptions.length - 1].to = index;
+
+                isFindingEnd = false;
+                workingLinkCursor = null;
+              }
+              break;
+          }
+        }
+
+        switch (str) {
+          case ParagraphInput.DESC_HIGHLIGHT_SYMBOL:
+            newDescriptions.push({
+              type: ParagraphInput.DESC_HIGHLIGHT,
+              from: index,
+              to: index,
+            });
+
+            isFindingEnd = true;
+            break;
+
+          default:
+            if (linkMap.get(str)) {
+              newDescriptions.push({
+                type: ParagraphInput.DESC_LINK,
+                from: index,
+                to: index,
+                url: linkMap.get(str),
+              });
+
+              workingLinkCursor = str;
+
+              isFindingEnd = true;
+            }
+            break;
+        }
+      }
+    });
+
+    updateDescriptions(newDescriptions);
+  }
+
   render() {
     const {
       value,
       input,
+      descriptions,
     } = this.props;
 
     const {
@@ -240,7 +461,7 @@ class ParagraphInput extends RangeHandler<Props> {
             ...styles.input,
             ...styles.preview,
           }}>
-          {value}
+          {ParagraphInput.wrapDescriptions(value, descriptions)}
         </div>
         <div
           ref={this.menu}
@@ -251,12 +472,14 @@ class ParagraphInput extends RangeHandler<Props> {
             top: menuY,
           }}>
           <button
+            onMouseDown={() => this.highlightSelection()}
             type="button"
             style={styles.menuButton}>
             Highlight
           </button>
           <span style={styles.spliter} />
           <button
+            onMouseDown={() => this.linkSelection()}
             type="button"
             style={styles.menuButton}>
             Link
