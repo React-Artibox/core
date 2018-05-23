@@ -102,6 +102,39 @@ const styles = {
     color: '#08c',
     pointerEvents: 'auto',
   },
+  linkModal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.88)',
+    zIndex: 5,
+    opacity: 0,
+    pointerEvents: 'none',
+    transform: 'scale(0.9)',
+    transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
+  },
+  linkModalShown: {
+    opacity: 1,
+    pointerEvents: 'auto',
+    transform: 'scale(1)',
+  },
+  linkModalInput: {
+    backgroundColor: 'rgba(255, 255, 255, 0.88)',
+    lineHeight: '24px',
+    fontSize: 16,
+    fontWeight: 400,
+    padding: '0 8px',
+    width: 600,
+    maxWidth: 'calc(100vw - 48px)',
+    border: 0,
+    borderRadius: 1,
+    outline: 'none',
+  },
 };
 
 type Props = {
@@ -198,6 +231,9 @@ class ParagraphInput extends RangeHandler<Props> {
     menuX: null,
     menuY: null,
     menuShown: false,
+    linkModalShown: false,
+    selectionStart: null,
+    selectionEnd: null,
   }
 
   constructor(props) {
@@ -205,12 +241,51 @@ class ParagraphInput extends RangeHandler<Props> {
 
     this.preview = React.createRef();
     this.menu = React.createRef();
+    this.linkInput = React.createRef();
   }
 
   componentDidMount() {
     this.updateHeight();
 
     this.props.input.current.focus();
+  }
+
+  componentDidUpdate(prevProps, { linkModalShown }) {
+    if (!linkModalShown && this.state.linkModalShown) {
+      setTimeout(() => {
+        this.linkInput.current.focus();
+      }, 0);
+    }
+  }
+
+  onLinkInputKeyUp({ which, keyCode }) {
+    const {
+      selectionStart,
+      selectionEnd,
+    } = this.state;
+
+    switch (which || keyCode) {
+      case 13:
+        this.setState({
+          linkModalShown: false,
+        });
+
+        this.linkSelection(selectionStart, selectionEnd, this.linkInput.current.value);
+
+        this.linkInput.current.value = '';
+        break;
+
+      case 27:
+        this.setState({
+          linkModalShown: false,
+          selectionStart: null,
+          selectionEnd: null,
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 
   onSelect() {
@@ -305,22 +380,12 @@ class ParagraphInput extends RangeHandler<Props> {
     });
   }
 
-  linkSelection() {
-    const {
-      input: {
-        current: textarea,
-      },
-    } = this.props;
-
-    if (textarea.selectionStart === textarea.selectionEnd) {
-      return;
-    }
-
+  linkSelection(selectionStart, selectionEnd, url) {
     this.updateDescriptions({
       type: ParagraphInput.DESC_LINK,
-      from: textarea.selectionStart,
-      to: textarea.selectionEnd,
-      url: `https://rytass.com/?target=${Math.random()}`,
+      from: selectionStart,
+      to: selectionEnd,
+      url,
     });
   }
 
@@ -417,6 +482,14 @@ class ParagraphInput extends RangeHandler<Props> {
     updateDescriptions(newDescriptions);
   }
 
+  openLinkModal(selectionStart, selectionEnd) {
+    this.setState({
+      linkModalShown: true,
+      selectionStart,
+      selectionEnd,
+    });
+  }
+
   render() {
     const {
       value,
@@ -429,6 +502,7 @@ class ParagraphInput extends RangeHandler<Props> {
       menuX,
       menuY,
       menuShown,
+      linkModalShown,
     } = this.state;
 
     return (
@@ -479,12 +553,27 @@ class ParagraphInput extends RangeHandler<Props> {
           </button>
           <span style={styles.spliter} />
           <button
-            onMouseDown={() => this.linkSelection()}
+            onMouseDown={() => this.openLinkModal(
+              input.current.selectionStart,
+              input.current.selectionEnd,
+            )}
             type="button"
             style={styles.menuButton}>
             Link
           </button>
           <span style={styles.triangle} />
+        </div>
+        <div
+          style={{
+            ...styles.linkModal,
+            ...(linkModalShown ? styles.linkModalShown : {}),
+          }}>
+          <input
+            ref={this.linkInput}
+            onKeyUp={e => this.onLinkInputKeyUp(e)}
+            placeholder="Please enter link URL"
+            type="type"
+            style={styles.linkModalInput} />
         </div>
       </Fragment>
     );
