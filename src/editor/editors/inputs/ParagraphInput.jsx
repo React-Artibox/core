@@ -47,16 +47,19 @@ const styles = {
     whiteSpace: 'pre-wrap',
   },
   menu: {
+    height: 26,
     backgroundColor: '#121212',
     borderRadius: 4,
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.12)',
     position: 'absolute',
     zIndex: 10,
-    padding: '2px 8px',
+    padding: 0,
     opacity: 0,
-    pointerEvents: 'none',
     transform: 'scale(1.01) translate(0, -12px)',
     transition: 'opacity 0.12s ease-out, transform 0.08s ease-out',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   menuShown: {
     opacity: 1,
@@ -69,7 +72,8 @@ const styles = {
     fontWeight: 400,
     lineHeight: 1.618,
     letterSpacing: 1,
-    padding: '0 0 0 1px',
+    padding: '2px 8px 2px 9px',
+    cursor: 'pointer',
   },
   triangle: {
     borderTop: '6px solid #121212',
@@ -79,6 +83,12 @@ const styles = {
     left: 'calc(50% - 3px)',
     bottom: -6,
     zIndex: 10,
+  },
+  spliter: {
+    width: 1,
+    height: '100%',
+    backgroundColor: '#575757',
+    display: 'block',
   },
 };
 
@@ -240,7 +250,17 @@ class ParagraphInput extends RangeHandler<Props> {
             left: menuX,
             top: menuY,
           }}>
-          <button type="button" style={styles.menuButton}>Highlight</button>
+          <button
+            type="button"
+            style={styles.menuButton}>
+            Highlight
+          </button>
+          <span style={styles.spliter} />
+          <button
+            type="button"
+            style={styles.menuButton}>
+            Link
+          </button>
           <span style={styles.triangle} />
         </div>
       </Fragment>
