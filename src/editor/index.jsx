@@ -1,7 +1,10 @@
 // @flow
 
 import React from 'react';
-import { ConfigContext } from '../context';
+import {
+  ConfigContext,
+  MetadataContext,
+} from '../context';
 import {
   TYPE_TITLE,
   TYPE_IMAGE,
@@ -12,28 +15,36 @@ import EditorTitle from './editors/EditorTitle';
 import EditorParagraph from './editors/EditorParagraph';
 import EditorImage from './editors/EditorImage';
 import ArtiboxEditorBlockGenerator from './ArtiboxEditorBlockGenerator';
+import ArticleTitleEditor from './metadata/ArticleTitleEditor';
 
 const styles = {
   wrapper: {
     width: '100%',
     backgroundColor: '#fafafa',
     border: '1px solid #e2e2e2',
-    padding: '112px 16px 12px 16px',
+    padding: '12px 16px',
     borderRadius: 2,
     position: 'relative',
+    maxHeight: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
   header: {
-    width: 'calc(100% - 32px)',
-    height: 88,
-    position: 'absolute',
-    top: 12,
-    left: 16,
+    width: '100%',
   },
   topActions: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '4px 0',
+  },
+  mainContainer: {
+    width: '100%',
+    display: 'block',
+    overflow: 'auto',
+    flexGrow: 1,
   },
 };
 
@@ -62,6 +73,7 @@ function ArtiboxEditorWrapper({
         removeBlock,
         handleSubmit,
         getActiveBlock,
+        updateMetadata,
       }) => {
         const editor = editors[name];
 
@@ -80,59 +92,69 @@ function ArtiboxEditorWrapper({
               <div style={styles.topActions}>
                 <IconSave scale={0.8} onClick={handleSubmit(editor)} />
               </div>
+              <MetadataContext.Provider
+                value={{
+                  name,
+                  metadata: editor.metadata,
+                  update: updateMetadata,
+                }}>
+                <ArticleTitleEditor />
+              </MetadataContext.Provider>
               <ArtiboxEditorBlockGenerator
                 createBlock={createBlock}
                 getActiveBlock={getActiveBlock}
                 editorName={name} />
             </header>
-            {editor.blocks.map((block) => {
-              switch (block.type) {
-                case TYPE_TITLE:
-                  return (
-                    <EditorTitle
-                      editorName={name}
-                      updateDescriptions={updateDescriptions}
-                      createBlock={createBlock}
-                      selectValue={selectValue}
-                      updateValue={updateValue}
-                      removeBlock={removeBlock}
-                      handleSubmit={handleSubmit}
-                      block={block}
-                      key={block.id} />
-                  );
+            <main style={styles.mainContainer}>
+              {editor.blocks.map((block) => {
+                switch (block.type) {
+                  case TYPE_TITLE:
+                    return (
+                      <EditorTitle
+                        editorName={name}
+                        updateDescriptions={updateDescriptions}
+                        createBlock={createBlock}
+                        selectValue={selectValue}
+                        updateValue={updateValue}
+                        removeBlock={removeBlock}
+                        handleSubmit={handleSubmit}
+                        block={block}
+                        key={block.id} />
+                    );
 
-                case TYPE_PARAGRAPH:
-                  return (
-                    <EditorParagraph
-                      editorName={name}
-                      updateDescriptions={updateDescriptions}
-                      createBlock={createBlock}
-                      selectValue={selectValue}
-                      updateValue={updateValue}
-                      removeBlock={removeBlock}
-                      handleSubmit={handleSubmit}
-                      block={block}
-                      key={block.id} />
-                  );
+                  case TYPE_PARAGRAPH:
+                    return (
+                      <EditorParagraph
+                        editorName={name}
+                        updateDescriptions={updateDescriptions}
+                        createBlock={createBlock}
+                        selectValue={selectValue}
+                        updateValue={updateValue}
+                        removeBlock={removeBlock}
+                        handleSubmit={handleSubmit}
+                        block={block}
+                        key={block.id} />
+                    );
 
-                case TYPE_IMAGE:
-                  return (
-                    <EditorImage
-                      editorName={name}
-                      updateDescriptions={updateDescriptions}
-                      createBlock={createBlock}
-                      selectValue={selectValue}
-                      updateValue={updateValue}
-                      removeBlock={removeBlock}
-                      handleSubmit={handleSubmit}
-                      block={block}
-                      key={block.id} />
-                  );
+                  case TYPE_IMAGE:
+                    return (
+                      <EditorImage
+                        editorName={name}
+                        updateDescriptions={updateDescriptions}
+                        createBlock={createBlock}
+                        selectValue={selectValue}
+                        updateValue={updateValue}
+                        removeBlock={removeBlock}
+                        handleSubmit={handleSubmit}
+                        block={block}
+                        key={block.id} />
+                    );
 
-                default:
-                  return null;
-              }
-            })}
+                  default:
+                    return null;
+                }
+              })}
+            </main>
           </div>
         );
     }}

@@ -23,6 +23,7 @@ const styles = {
     margin: '0 auto',
     padding: '32px 0',
     maxWidth: 720,
+    height: '80vh',
   },
   minimap: {
     width: 150,

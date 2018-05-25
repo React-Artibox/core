@@ -54,7 +54,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
   static handleSubmit({
     onSubmit,
     blocks,
-    meta,
+    metadata,
   }) {
     return () => onSubmit({
       blocks: blocks.map(b => ({
@@ -63,7 +63,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
         value: b.value,
         descriptions: b.descriptions,
       })),
-      ...meta,
+      ...metadata,
     });
   }
 
@@ -78,6 +78,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     this.boundHandleSubmit = (...args) => ArtiboxConfigProvider.handleSubmit(...args);
     this.boundCreateNewEditor = name => this.createNewEditor(name);
     this.boundUpdateDescriptions = (...args) => this.updateDescriptions(...args);
+    this.boundUpdateMetadata = (...args) => this.updateMetadata(...args);
   }
 
   state = {
@@ -88,6 +89,21 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     const { editors } = this.state;
 
     return editors[name].blocks.find(b => b.input.current === document.activeElement);
+  }
+
+  updateMetadata(name, key, value) {
+    this.setState({
+      editors: {
+        ...this.state.editors,
+        [name]: {
+          ...this.state.editors[name],
+          metadata: {
+            ...this.state.editors[name].metadata,
+            [key]: value.target.value,
+          },
+        },
+      },
+    });
   }
 
   createNewEditor({
@@ -101,7 +117,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
           name,
           blockIDCursor: -1,
           blocks: [],
-          meta: {
+          metadata: {
             title: '',
           },
           onSubmit,
@@ -277,6 +293,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
           updateDescriptions: this.boundUpdateDescriptions,
           handleSubmit: this.boundHandleSubmit,
           createNewEditor: this.boundCreateNewEditor,
+          updateMetadata: this.boundUpdateMetadata,
         }}>
         {children}
       </ConfigContext.Provider>
