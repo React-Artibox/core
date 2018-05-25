@@ -8,7 +8,7 @@ import {
   createConfigProvider,
   Editor,
   Minimap,
-} from '../src/index';
+} from '../lib/index';
 
 const ArtiboxProvider = createConfigProvider({
   minimap: true,

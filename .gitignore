@@ -63,3 +63,6 @@ examples/*.hot-update.js
 examples/*.hot-update.js.map
 examples/bundle.js
 examples/bundle.js.map
+
+# npm
+/lib/

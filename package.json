@@ -2,8 +2,9 @@
   "name": "@artibox/core",
   "version": "0.1.0",
   "description": "A responsive rich article editor and viewer built with React",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "prepublish": "babel src -d lib",
     "start": "webpack-dev-server --config ./examples/webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
