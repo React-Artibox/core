@@ -1,5 +1,7 @@
 # React-Artibox
-React Article Box
+React Rich Text Editor in Structured Data, easy render for RWD layout.
+
+** IMPORTANT ** This repo is in development, please careful use in your production product.
 
 ## Get Started
 
