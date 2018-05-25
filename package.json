@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rytass/React-Artibox.git"
+    "url": "git+https://github.com/React-Artibox/React-Artibox.git"
   },
   "keywords": [
     "react",
@@ -21,9 +21,9 @@
   "author": "Chia Yu Pai <chiayu@rytass.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Rytass/React-Artibox/issues"
+    "url": "https://github.com/React-Artibox/React-Artibox/issues"
   },
-  "homepage": "https://github.com/Rytass/React-Artibox#readme",
+  "homepage": "https://github.com/React-Artibox/React-Artibox#readme",
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.49",
     "@babel/core": "^7.0.0-beta.49",
