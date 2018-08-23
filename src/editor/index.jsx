@@ -70,8 +70,8 @@ class ArtiboxEditorWrapper extends PureComponent<Props> {
       onChange,
     } = this.props;
 
-    if (!name || !onSubmit) {
-      console.error('Please set name and onSubmit to initialize new Artibox Editor');
+    if (!name || (!onSubmit && !onChange)) {
+      console.error('Please set name and onSubmit or onChange to initialize new Artibox Editor');
 
       return null;
     }
@@ -107,9 +107,11 @@ class ArtiboxEditorWrapper extends PureComponent<Props> {
           return (
             <div style={this.styles.wrapper}>
               <header style={this.styles.header}>
-                <div style={this.styles.topActions}>
-                  <IconSave scale={0.8} onClick={handleSubmit(editor)} />
-                </div>
+                {onSubmit ? (
+                  <div style={this.styles.topActions}>
+                    <IconSave scale={0.8} onClick={handleSubmit(editor)} />
+                  </div>
+                ) : null}
                 {noTitle ? null : (
                   <MetadataContext.Provider
                     value={{
