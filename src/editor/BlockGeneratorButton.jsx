@@ -23,6 +23,9 @@ const styles = {
     padding: 0,
     outline: 'none',
     height: 32,
+    border: 0,
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
   },
 };
 
