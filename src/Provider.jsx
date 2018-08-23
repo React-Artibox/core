@@ -129,6 +129,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
 
   createNewEditor({
     name,
+    initialValue = {},
     onSubmit,
     onChange,
   } = {}) {
@@ -140,15 +141,17 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
         [name]: {
           name,
           blockIDCursor: -1,
-          blocks: [],
+          blocks: initialValue.blocks || [],
           metadata: {
-            title: '',
+            title: initialValue.title || '',
           },
           onSubmit,
           onChange,
         },
       },
     });
+
+    return this;
   }
 
   selectValue(name, id) {

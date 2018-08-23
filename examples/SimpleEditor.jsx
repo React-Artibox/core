@@ -1,7 +1,7 @@
 // @flow
 /* eslint import/no-extraneous-dependencies: 0 */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { hot } from 'react-hot-loader';
 import '@artibox/theme-dark';
 import { Color } from '@artibox/colors';
@@ -39,26 +39,20 @@ const styles = {
   },
 };
 
-class SimpleEditor extends Component {
-  onSubmitData(data) {
-    console.log(data);
-  }
-
-  render() {
-    return (
-      <ArtiboxProvider>
-        <div style={styles.wrapper}>
-          <Editor
-            name="TestEditors"
-            onChange={data => console.log('Changed:', data)}
-            onSubmit={data => this.onSubmitData(data)} />
-          <div style={styles.minimap}>
-            <Minimap name="TestEditors" />
-          </div>
+function SimpleEditor() {
+  return (
+    <ArtiboxProvider>
+      <div style={styles.wrapper}>
+        <Editor
+          name="TestEditors"
+          onChange={data => console.log('Changed:', data)}
+          onSubmit={data => console.log('Submitted:', data)} />
+        <div style={styles.minimap}>
+          <Minimap name="TestEditors" />
         </div>
-      </ArtiboxProvider>
-    );
-  }
+      </div>
+    </ArtiboxProvider>
+  );
 }
 
 export default hot(module)(SimpleEditor);

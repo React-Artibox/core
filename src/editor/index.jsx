@@ -20,6 +20,19 @@ import ArticleTitleEditor from './metadata/ArticleTitleEditor';
 
 type Props = {
   name: string,
+  initialValue: ?{
+    blocks: Array<{
+      id: number,
+      type: string,
+      value: string,
+      descriptions: Array<{
+        id: number,
+        type: string,
+        value: string,
+      }>
+    }>,
+    title: ?string,
+  },
   noTitle?: boolean,
   onSubmit: Function,
   onChange?: ?Function,
@@ -65,6 +78,7 @@ class ArtiboxEditorWrapper extends PureComponent<Props> {
   render() {
     const {
       name,
+      initialValue,
       noTitle,
       onSubmit,
       onChange,
@@ -96,6 +110,7 @@ class ArtiboxEditorWrapper extends PureComponent<Props> {
             setTimeout(() => {
               createNewEditor({
                 name,
+                initialValue,
                 onSubmit,
                 onChange,
               });
