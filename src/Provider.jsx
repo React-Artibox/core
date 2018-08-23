@@ -74,6 +74,13 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     return () => editor.onSubmit(ArtiboxConfigProvider.getEditorData(editor));
   }
 
+  static bindInputRef(blocks = []) {
+    return blocks.map(block => ({
+      ...block,
+      input: React.createRef(),
+    }));
+  }
+
   constructor(props) {
     super(props);
 
@@ -129,7 +136,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
 
   createNewEditor({
     name,
-    initialValue = {},
+    initialValues = {},
     onSubmit,
     onChange,
   } = {}) {
@@ -141,9 +148,9 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
         [name]: {
           name,
           blockIDCursor: -1,
-          blocks: initialValue.blocks || [],
+          blocks: ArtiboxConfigProvider.bindInputRef(initialValues.blocks),
           metadata: {
-            title: initialValue.title || '',
+            title: initialValues.title || '',
           },
           onSubmit,
           onChange,
