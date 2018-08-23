@@ -50,9 +50,11 @@ const styles = {
 
 function ArtiboxEditorWrapper({
   name,
+  noTitle,
   onSubmit,
 }: {
   name: string,
+  noTitle?: boolean,
   onSubmit: Function,
 }) {
   if (!name || !onSubmit) {
@@ -92,14 +94,16 @@ function ArtiboxEditorWrapper({
               <div style={styles.topActions}>
                 <IconSave scale={0.8} onClick={handleSubmit(editor)} />
               </div>
-              <MetadataContext.Provider
-                value={{
-                  name,
-                  metadata: editor.metadata,
-                  update: updateMetadata,
-                }}>
-                <ArticleTitleEditor />
-              </MetadataContext.Provider>
+              {noTitle ? null : (
+                <MetadataContext.Provider
+                  value={{
+                    name,
+                    metadata: editor.metadata,
+                    update: updateMetadata,
+                  }}>
+                  <ArticleTitleEditor />
+                </MetadataContext.Provider>
+              )}
               <ArtiboxEditorBlockGenerator
                 createBlock={createBlock}
                 getActiveBlock={getActiveBlock}
@@ -157,9 +161,14 @@ function ArtiboxEditorWrapper({
             </main>
           </div>
         );
-    }}
+      }
+    }
     </ConfigContext.Consumer>
   );
 }
+
+ArtiboxEditorWrapper.defaultProps = {
+  noTitle: false,
+};
 
 export default ArtiboxEditorWrapper;

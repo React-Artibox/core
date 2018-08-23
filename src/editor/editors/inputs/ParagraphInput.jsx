@@ -149,9 +149,11 @@ type Props = {
 
 class ParagraphInput extends RangeHandler<Props> {
   static DESC_HIGHLIGHT = 'DESC/HIGHLIGHT'
+
   static DESC_LINK = 'DESC/LINK'
 
   static DESC_HIGHLIGHT_SYMBOL = '*';
+
   static DESC_LINK_SYMBOL_FROM = 48;
 
   static wrapDescriptions(value, descriptions) {
@@ -178,6 +180,7 @@ class ParagraphInput extends RangeHandler<Props> {
           case ParagraphInput.DESC_LINK:
             wrappedStrings.push((
               <a
+                rel="noopener noreferrer"
                 href={descriptions[workingDescIndex].url}
                 target="_blank"
                 key={workingDescIndex}

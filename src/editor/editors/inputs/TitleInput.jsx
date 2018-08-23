@@ -50,7 +50,13 @@ class TitleInput extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    this.props.input.current.focus();
+    const {
+      input: {
+        current,
+      },
+    } = this.props;
+
+    current.focus();
   }
 
   handleKeyUp(keyCode) {
