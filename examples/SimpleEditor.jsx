@@ -50,6 +50,7 @@ class SimpleEditor extends Component {
         <div style={styles.wrapper}>
           <Editor
             name="TestEditors"
+            onChange={data => console.log('Changed:', data)}
             onSubmit={data => this.onSubmitData(data)} />
           <div style={styles.minimap}>
             <Minimap name="TestEditors" />

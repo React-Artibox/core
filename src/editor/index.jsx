@@ -22,11 +22,13 @@ type Props = {
   name: string,
   noTitle?: boolean,
   onSubmit: Function,
+  onChange?: ?Function,
 };
 
 class ArtiboxEditorWrapper extends PureComponent<Props> {
   static defaultProps = {
     noTitle: false,
+    onChange: null,
   };
 
   styles = {
@@ -65,6 +67,7 @@ class ArtiboxEditorWrapper extends PureComponent<Props> {
       name,
       noTitle,
       onSubmit,
+      onChange,
     } = this.props;
 
     if (!name || !onSubmit) {
@@ -94,6 +97,7 @@ class ArtiboxEditorWrapper extends PureComponent<Props> {
               createNewEditor({
                 name,
                 onSubmit,
+                onChange,
               });
             }, 0);
 

@@ -1,6 +1,6 @@
 {
   "name": "@artibox/core",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A responsive rich article editor and viewer built with React",
   "main": "lib/index.js",
   "scripts": {

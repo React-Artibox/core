@@ -55,12 +55,11 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     image: new Base64ImageHandler(),
   }
 
-  static handleSubmit({
-    onSubmit,
+  static getEditorData({
     blocks,
     metadata,
   }) {
-    return () => onSubmit({
+    return {
       blocks: blocks.map(b => ({
         id: b.id,
         type: b.type,
@@ -68,7 +67,11 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
         descriptions: b.descriptions,
       })),
       ...metadata,
-    });
+    };
+  }
+
+  static handleSubmit(editor) {
+    return () => editor.onSubmit(ArtiboxConfigProvider.getEditorData(editor));
   }
 
   constructor(props) {
@@ -80,13 +83,25 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     this.boundSelectValue = (...args) => this.selectValue(...args);
     this.boundCreateBlock = (...args) => this.createBlock(...args);
     this.boundHandleSubmit = (...args) => ArtiboxConfigProvider.handleSubmit(...args);
-    this.boundCreateNewEditor = name => this.createNewEditor(name);
+    this.boundCreateNewEditor = options => this.createNewEditor(options);
     this.boundUpdateDescriptions = (...args) => this.updateDescriptions(...args);
     this.boundUpdateMetadata = (...args) => this.updateMetadata(...args);
   }
 
   state = {
     editors: {},
+  }
+
+  componentDidUpdate(prevProps, {
+    editors: prevEditors,
+  }) {
+    const { editors } = this.state;
+
+    Object.entries(prevEditors).forEach(([name, editor]) => {
+      if (editor.onChange && editor !== editors[name]) {
+        editor.onChange(ArtiboxConfigProvider.getEditorData(editors[name]));
+      }
+    });
   }
 
   getActiveBlock(name) {
@@ -115,6 +130,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
   createNewEditor({
     name,
     onSubmit,
+    onChange,
   } = {}) {
     const { editors } = this.state;
 
@@ -129,6 +145,7 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
             title: '',
           },
           onSubmit,
+          onChange,
         },
       },
     });
