@@ -80,6 +80,14 @@ class ImageInput extends PureComponent<Props> {
     inputKey: Math.random(),
   }
 
+  componentDidMount() {
+    const { value } = this.props;
+
+    if (value) {
+      this.updateImageSize(value);
+    }
+  }
+
   componentDidUpdate({ value: pastImage }) {
     const {
       value: newImage,
