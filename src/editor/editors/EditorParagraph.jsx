@@ -19,6 +19,7 @@ const styles = {
 
 class EditorParagraph extends Editor {
   static type = TYPE_PARAGRAPH
+
   static getInitialValues(blockID) {
     return {
       ...super.getInitialValues(blockID),

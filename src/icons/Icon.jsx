@@ -1,12 +1,12 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { BLOCK_ICON, BLOCK_ICON_HOVERED } from '../styles/color';
+import Colors from '@artibox/colors';
 
 type Props = {
   children: Node,
-  scale: ?number,
-  onClick: ?Function,
+  scale?: number,
+  onClick?: ?Function,
 };
 
 type State = {
@@ -44,7 +44,7 @@ class Icon extends PureComponent<Props, State> {
             ...node.props,
             children: this.updateTextNode(node.props.children),
             ...(node.type === 'text' ? {
-              fill: isHovered ? BLOCK_ICON_HOVERED : BLOCK_ICON,
+              fill: isHovered ? Colors.BLOCK_ICON_HOVERED : Colors.BLOCK_ICON,
               strokeWidth: 0,
             } : {}),
           },
@@ -60,7 +60,7 @@ class Icon extends PureComponent<Props, State> {
         ...nodes.props,
         children: this.updateTextNode(nodes.props.children),
         ...(nodes.type === 'text' ? {
-          fill: isHovered ? BLOCK_ICON_HOVERED : BLOCK_ICON,
+          fill: isHovered ? Colors.BLOCK_ICON_HOVERED : Colors.BLOCK_ICON,
           stroke: 0,
         } : {}),
       },
@@ -90,7 +90,7 @@ class Icon extends PureComponent<Props, State> {
         <g
           fill="transparent"
           strokeWidth="2"
-          stroke={isHovered ? BLOCK_ICON_HOVERED : BLOCK_ICON}>
+          stroke={isHovered ? Colors.BLOCK_ICON_HOVERED : Colors.BLOCK_ICON}>
           {children}
         </g>
       </svg>

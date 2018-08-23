@@ -3,12 +3,16 @@
 
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
+import '@artibox/theme-dark';
+import { Color } from '@artibox/colors';
 import {
   Base64ImageHandler,
   createConfigProvider,
   Editor,
   Minimap,
 } from '../lib/index';
+
+Color.setTheme('dark');
 
 const ArtiboxProvider = createConfigProvider({
   minimap: true,

@@ -2,140 +2,11 @@
 /* eslint prefer-spread: 0 */
 
 import React, { Fragment } from 'react';
+import Colors from '@artibox/colors';
 import { mixer } from '../../../helper/style';
 import { inputResolver } from '../../../helper/input';
 import { TYPE_PARAGRAPH } from '../../../type';
 import RangeHandler from '../../../helper/RangeHandler';
-
-const styles = {
-  wrapper: {
-    width: '100%',
-    position: 'relative',
-    padding: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  input: {
-    fontSize: 16,
-    lineHeight: 1.618,
-    resize: 'none',
-    width: '100%',
-    backgroundColor: '#fafafa',
-    outline: 'none',
-    padding: '0.25em 10px',
-    minHeight: '1.618em',
-    border: 0,
-    overflow: 'hidden',
-    color: 'transparent',
-    caretColor: '#4a4a4a',
-  },
-  wrapperLast: {
-    padding: '0 0 12px 0',
-  },
-  inputFocus: {
-    backgroundColor: '#efefef',
-  },
-  preview: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    backgroundColor: 'transparent',
-    pointerEvents: 'none',
-    color: 'default',
-    width: '100%',
-    wordWrap: 'break-word',
-    whiteSpace: 'pre-wrap',
-  },
-  menu: {
-    height: 26,
-    backgroundColor: '#121212',
-    borderRadius: 4,
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.12)',
-    position: 'absolute',
-    zIndex: 10,
-    padding: 0,
-    opacity: 0,
-    transform: 'scale(1.01) translate(0, -12px)',
-    transition: 'opacity 0.12s ease-out, transform 0.08s ease-out',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    pointerEvents: 'none',
-  },
-  menuShown: {
-    opacity: 1,
-    pointerEvents: 'auto',
-    transform: 'scale(1) translate(0, 0)',
-  },
-  menuButton: {
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: 400,
-    letterSpacing: 1,
-    padding: '0 8px 0 9px',
-    cursor: 'pointer',
-    height: '100%',
-    lineHeight: '26px',
-  },
-  triangle: {
-    borderTop: '6px solid #121212',
-    borderLeft: '6px solid transparent',
-    borderRight: '6px solid transparent',
-    position: 'absolute',
-    left: 'calc(50% - 3px)',
-    bottom: -6,
-    zIndex: 10,
-    pointerEvents: 'none',
-  },
-  spliter: {
-    width: 1,
-    height: '100%',
-    backgroundColor: '#575757',
-    display: 'block',
-  },
-  highlight: {
-    color: 'red',
-  },
-  link: {
-    textDecoration: 'none',
-    color: '#08c',
-    pointerEvents: 'auto',
-  },
-  linkModal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'fixed',
-    left: 0,
-    top: 0,
-    width: '100vw',
-    height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.88)',
-    zIndex: 5,
-    opacity: 0,
-    pointerEvents: 'none',
-    transform: 'scale(0.9)',
-    transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
-  },
-  linkModalShown: {
-    opacity: 1,
-    pointerEvents: 'auto',
-    transform: 'scale(1)',
-  },
-  linkModalInput: {
-    backgroundColor: 'rgba(255, 255, 255, 0.88)',
-    lineHeight: '24px',
-    fontSize: 16,
-    fontWeight: 400,
-    padding: '0 8px',
-    width: 600,
-    maxWidth: 'calc(100vw - 48px)',
-    border: 0,
-    borderRadius: 1,
-    outline: 'none',
-  },
-};
 
 type Props = {
   onChange: Function,
@@ -148,6 +19,136 @@ type Props = {
 };
 
 class ParagraphInput extends RangeHandler<Props> {
+  styles = {
+    wrapper: {
+      width: '100%',
+      position: 'relative',
+      padding: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+    input: {
+      fontSize: 16,
+      lineHeight: 1.618,
+      resize: 'none',
+      width: '100%',
+      outline: 'none',
+      padding: '0.25em 10px',
+      minHeight: '1.618em',
+      border: 0,
+      overflow: 'hidden',
+      color: 'transparent',
+      caretColor: '#4a4a4a',
+      backgroundColor: Colors.INPUT_BACKGROUND,
+    },
+    wrapperLast: {
+      padding: '0 0 12px 0',
+    },
+    inputFocus: {
+      backgroundColor: Colors.INPUT_BACKGROUND_HOVERED,
+    },
+    preview: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      backgroundColor: 'transparent',
+      pointerEvents: 'none',
+      color: 'default',
+      width: '100%',
+      wordWrap: 'break-word',
+      whiteSpace: 'pre-wrap',
+    },
+    menu: {
+      height: 26,
+      backgroundColor: '#121212',
+      borderRadius: 4,
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.12)',
+      position: 'absolute',
+      zIndex: 10,
+      padding: 0,
+      opacity: 0,
+      transform: 'scale(1.01) translate(0, -12px)',
+      transition: 'opacity 0.12s ease-out, transform 0.08s ease-out',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      pointerEvents: 'none',
+    },
+    menuShown: {
+      opacity: 1,
+      pointerEvents: 'auto',
+      transform: 'scale(1) translate(0, 0)',
+    },
+    menuButton: {
+      color: '#fff',
+      fontSize: 13,
+      fontWeight: 400,
+      letterSpacing: 1,
+      padding: '0 8px 0 9px',
+      cursor: 'pointer',
+      height: '100%',
+      lineHeight: '26px',
+    },
+    triangle: {
+      borderTop: '6px solid #121212',
+      borderLeft: '6px solid transparent',
+      borderRight: '6px solid transparent',
+      position: 'absolute',
+      left: 'calc(50% - 3px)',
+      bottom: -6,
+      zIndex: 10,
+      pointerEvents: 'none',
+    },
+    spliter: {
+      width: 1,
+      height: '100%',
+      backgroundColor: '#575757',
+      display: 'block',
+    },
+    highlight: {
+      color: 'red',
+    },
+    link: {
+      textDecoration: 'none',
+      color: '#08c',
+      pointerEvents: 'auto',
+    },
+    linkModal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'fixed',
+      left: 0,
+      top: 0,
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: 'rgba(0, 0, 0, 0.88)',
+      zIndex: 5,
+      opacity: 0,
+      pointerEvents: 'none',
+      transform: 'scale(0.9)',
+      transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
+    },
+    linkModalShown: {
+      opacity: 1,
+      pointerEvents: 'auto',
+      transform: 'scale(1)',
+    },
+    linkModalInput: {
+      backgroundColor: 'rgba(255, 255, 255, 0.88)',
+      lineHeight: '24px',
+      fontSize: 16,
+      fontWeight: 400,
+      padding: '0 8px',
+      width: 600,
+      maxWidth: 'calc(100vw - 48px)',
+      border: 0,
+      borderRadius: 1,
+      outline: 'none',
+    },
+  };
+
   static DESC_HIGHLIGHT = 'DESC/HIGHLIGHT'
 
   static DESC_LINK = 'DESC/LINK'
@@ -171,7 +172,7 @@ class ParagraphInput extends RangeHandler<Props> {
         switch (concatingType) {
           case ParagraphInput.DESC_HIGHLIGHT:
             wrappedStrings.push((
-              <span key={workingDescIndex} style={styles.highlight}>{nodeContent}</span>
+              <span key={workingDescIndex} style={this.styles.highlight}>{nodeContent}</span>
             ));
 
             nodeContent = '';
@@ -184,7 +185,7 @@ class ParagraphInput extends RangeHandler<Props> {
                 href={descriptions[workingDescIndex].url}
                 target="_blank"
                 key={workingDescIndex}
-                style={styles.link}>
+                style={this.styles.link}>
                 {nodeContent}
               </a>
             ));
@@ -528,55 +529,55 @@ class ParagraphInput extends RangeHandler<Props> {
           })}
           value={value}
           style={mixer([
-            styles.input,
-            isFocus && styles.inputFocus,
+            this.styles.input,
+            isFocus && this.styles.inputFocus,
           ])}
           placeholder="Paragraph" />
         <div
           ref={this.preview}
           style={{
-            ...styles.input,
-            ...styles.preview,
+            ...this.styles.input,
+            ...this.styles.preview,
           }}>
           {ParagraphInput.wrapDescriptions(value, descriptions)}
         </div>
         <div
           ref={this.menu}
           style={{
-            ...styles.menu,
-            ...(menuShown ? styles.menuShown : {}),
+            ...this.styles.menu,
+            ...(menuShown ? this.styles.menuShown : {}),
             left: menuX,
             top: menuY,
           }}>
           <button
             onMouseDown={() => this.highlightSelection()}
             type="button"
-            style={styles.menuButton}>
+            style={this.styles.menuButton}>
             Highlight
           </button>
-          <span style={styles.spliter} />
+          <span style={this.styles.spliter} />
           <button
             onMouseDown={() => this.openLinkModal(
               input.current.selectionStart,
               input.current.selectionEnd,
             )}
             type="button"
-            style={styles.menuButton}>
+            style={this.styles.menuButton}>
             Link
           </button>
-          <span style={styles.triangle} />
+          <span style={this.styles.triangle} />
         </div>
         <div
           style={{
-            ...styles.linkModal,
-            ...(linkModalShown ? styles.linkModalShown : {}),
+            ...this.styles.linkModal,
+            ...(linkModalShown ? this.styles.linkModalShown : {}),
           }}>
           <input
             ref={this.linkInput}
             onKeyUp={e => this.onLinkInputKeyUp(e)}
             placeholder="Please enter link URL"
             type="type"
-            style={styles.linkModalInput} />
+            style={this.styles.linkModalInput} />
         </div>
       </Fragment>
     );

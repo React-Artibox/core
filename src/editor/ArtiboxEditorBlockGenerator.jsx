@@ -15,7 +15,7 @@ const styles: {} = {
   wrapper: {
     width: '100%',
     height: 48,
-    borderRadius: 2,
+    borderRadius: '2px 2px 0 0',
     backgroundColor: '#f2f2f2',
     padding: '0 6px',
     display: 'flex',

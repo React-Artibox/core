@@ -1,57 +1,10 @@
 // @flow
 
 import React, { PureComponent } from 'react';
+import Colors from '@artibox/colors';
 import { ConfigContext } from '../../../context';
 import IconPhoto from '../../../icons/IconPhoto';
 import { inputResolver } from '../../../helper/input';
-
-const styles = {
-  wrapper: {
-    width: '100%',
-    position: 'relative',
-    minHeight: '20vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fafafa',
-    padding: '0.25em 0.5em',
-    outline: 'none',
-  },
-  imageWrapper: {
-    position: 'relative',
-  },
-  input: {
-    opacity: 0,
-    cursor: 'pointer',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 10,
-  },
-  image: {
-
-  },
-  minSize: {
-    minWidth: '75%',
-    minHeight: '15vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputWrapper: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 10,
-  },
-  inputWrapperHovered: {
-    backgroundColor: 'rgba(0, 0, 0, 0.04)',
-  },
-};
 
 type Props = {
   onChange: Function,
@@ -63,6 +16,56 @@ type Props = {
 };
 
 class ImageInput extends PureComponent<Props> {
+  styles = {
+    wrapper: {
+      width: '100%',
+      position: 'relative',
+      minHeight: '20vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#fafafa',
+      padding: '0.25em 0.5em',
+      outline: 'none',
+    },
+    imageWrapper: {
+      position: 'relative',
+    },
+    input: {
+      opacity: 0,
+      cursor: 'pointer',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      zIndex: 10,
+      backgroundColor: Colors.INPUT_BACKGROUND,
+      border: `1px solid ${Colors.INPUT_BORDER}`,
+    },
+    image: {
+
+    },
+    minSize: {
+      minWidth: '75%',
+      minHeight: '15vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputWrapper: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      zIndex: 10,
+    },
+    inputWrapperHovered: {
+      backgroundColor: Colors.INPUT_BACKGROUND_HOVERED_MASK,
+    },
+  };
+
   constructor(props) {
     super(props);
 
@@ -140,15 +143,15 @@ class ImageInput extends PureComponent<Props> {
         tabIndex="-1"
         onKeyPress={() => input.current.focus()}
         onClick={() => input.current.focus()}
-        style={styles.wrapper}
+        style={this.styles.wrapper}
         ref={this.wrapper}>
         {isImageLoaded ? (
-          <div style={styles.imageWrapper}>
-            <img src={shownImage} width={width} height={height} alt="" style={styles.image} />
+          <div style={this.styles.imageWrapper}>
+            <img src={shownImage} width={width} height={height} alt="" style={this.styles.image} />
             <div
               style={{
-                ...styles.inputWrapper,
-                ...(isHovered ? styles.inputWrapperHovered : {}),
+                ...this.styles.inputWrapper,
+                ...(isHovered ? this.styles.inputWrapperHovered : {}),
               }}
               onMouseEnter={() => this.setState({ isHovered: true })}
               onMouseLeave={() => this.setState({ isHovered: false })}>
@@ -156,7 +159,7 @@ class ImageInput extends PureComponent<Props> {
                 ref={input}
                 key={inputKey}
                 onChange={onChangeHook(onChange)}
-                style={styles.input}
+                style={this.styles.input}
                 accept="image/*"
                 type="file" />
             </div>
@@ -164,14 +167,14 @@ class ImageInput extends PureComponent<Props> {
         ) : (
           <div
             style={{
-              ...styles.imageWrapper,
-              ...styles.minSize,
+              ...this.styles.imageWrapper,
+              ...this.styles.minSize,
             }}>
             <IconPhoto scale={1.5} />
             <div
               style={{
-                ...styles.inputWrapper,
-                ...(isHovered ? styles.inputWrapperHovered : {}),
+                ...this.styles.inputWrapper,
+                ...(isHovered ? this.styles.inputWrapperHovered : {}),
               }}
               onMouseEnter={() => this.setState({ isHovered: true })}
               onMouseLeave={() => this.setState({ isHovered: false })}>
@@ -179,7 +182,7 @@ class ImageInput extends PureComponent<Props> {
                 ref={input}
                 key={inputKey}
                 onChange={onChangeHook(onChange)}
-                style={styles.input}
+                style={this.styles.input}
                 accept="image/*"
                 type="file" />
             </div>

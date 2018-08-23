@@ -18,6 +18,7 @@ const styles = {
 
 class EditorTitle extends Editor {
   static type = TYPE_TITLE
+
   static getInitialValues(blockID) {
     return {
       ...super.getInitialValues(blockID),

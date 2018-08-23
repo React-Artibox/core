@@ -45,6 +45,10 @@ function getEditorInitialValues(type, blockIDCursor) {
 export default class ArtiboxConfigProvider extends PureComponent<Props> {
   static defaultProps = {
     minimap: true,
+    children: null,
+    handlers: {
+      image: new Base64ImageHandler(),
+    },
   }
 
   static DEFAULT_HANDLERS = {
@@ -92,13 +96,15 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
   }
 
   updateMetadata(name, key, value) {
+    const { editors } = this.state;
+
     this.setState({
       editors: {
-        ...this.state.editors,
+        ...editors,
         [name]: {
-          ...this.state.editors[name],
+          ...editors[name],
           metadata: {
-            ...this.state.editors[name].metadata,
+            ...editors[name].metadata,
             [key]: value.target.value,
           },
         },
@@ -110,9 +116,11 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     name,
     onSubmit,
   } = {}) {
+    const { editors } = this.state;
+
     this.setState({
       editors: {
-        ...this.state.editors,
+        ...editors,
         [name]: {
           name,
           blockIDCursor: -1,

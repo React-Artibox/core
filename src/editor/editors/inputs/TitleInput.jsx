@@ -1,38 +1,10 @@
 // @flow
 
 import React, { Fragment, PureComponent } from 'react';
+import Colors from '@artibox/colors';
 import { mixer } from '../../../helper/style';
 import { inputResolver } from '../../../helper/input';
 import { TYPE_PARAGRAPH } from '../../../type';
-
-const styles = {
-  input: {
-    fontSize: '1.75em',
-    padding: '0.4em 10px 0.15em 10px',
-    letterSpacing: 1,
-    lineHeight: 1.618,
-    border: 0,
-    borderRadius: 2,
-    outline: 'none',
-    flexGrow: 1,
-    backgroundColor: '#fafafa',
-    color: 'transparent',
-    caretColor: '#4a4a4a',
-  },
-  inputFocus: {
-    backgroundColor: '#efefef',
-  },
-  preview: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    backgroundColor: 'transparent',
-    pointerEvents: 'none',
-    color: 'default',
-    wordWrap: 'break-word',
-    whiteSpace: 'pre-wrap',
-  },
-};
 
 type Props = {
   onChange: Function,
@@ -44,7 +16,40 @@ type Props = {
   insertBlock: Function,
 };
 
-class TitleInput extends PureComponent<Props> {
+type State = {
+  isFocus: boolean,
+};
+
+class TitleInput extends PureComponent<Props, State> {
+  styles = {
+    input: {
+      fontSize: '1.75em',
+      padding: '0.4em 10px 0.15em 10px',
+      letterSpacing: 1,
+      lineHeight: 1.618,
+      border: 0,
+      borderRadius: 0,
+      outline: 'none',
+      flexGrow: 1,
+      color: 'transparent',
+      backgroundColor: Colors.INPUT_BACKGROUND,
+      caretColor: '#4a4a4a',
+    },
+    inputFocus: {
+      backgroundColor: Colors.INPUT_BACKGROUND_HOVERED,
+    },
+    preview: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      backgroundColor: 'transparent',
+      pointerEvents: 'none',
+      color: 'default',
+      wordWrap: 'break-word',
+      whiteSpace: 'pre-wrap',
+    },
+  };
+
   state = {
     isFocus: false,
   }
@@ -104,15 +109,15 @@ class TitleInput extends PureComponent<Props> {
           onFocus={() => this.setState({ isFocus: true })}
           onBlur={() => this.setState({ isFocus: false })}
           style={mixer([
-            styles.input,
-            isFocus && styles.inputFocus,
+            this.styles.input,
+            isFocus && this.styles.inputFocus,
           ])}
           placeholder="Title"
           type="text" />
         <div
           style={{
-            ...styles.input,
-            ...styles.preview,
+            ...this.styles.input,
+            ...this.styles.preview,
           }}>
           {value}
         </div>
