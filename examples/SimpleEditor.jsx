@@ -1,7 +1,7 @@
 // @flow
 /* eslint import/no-extraneous-dependencies: 0 */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { hot } from 'react-hot-loader';
 import '@artibox/theme-dark';
 import { Color } from '@artibox/colors';
@@ -10,7 +10,7 @@ import {
   createConfigProvider,
   Editor,
   Minimap,
-} from '../lib/index';
+} from '../src/index';
 
 Color.setTheme('dark');
 
