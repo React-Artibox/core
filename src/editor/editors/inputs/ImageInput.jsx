@@ -5,6 +5,7 @@ import Colors from '@artibox/colors';
 import { ConfigContext } from '../../../context';
 import IconPhoto from '../../../icons/IconPhoto';
 import { inputResolver } from '../../../helper/input';
+import { TYPE_PARAGRAPH } from '../../../type';
 
 type Props = {
   onChange: Function,
@@ -13,6 +14,8 @@ type Props = {
   input: {
     current: ?Node,
   },
+  remove: Function,
+  addNextBlock: Function,
 };
 
 class ImageInput extends PureComponent<Props> {
@@ -128,6 +131,34 @@ class ImageInput extends PureComponent<Props> {
     img.src = image;
   }
 
+  handleKeyUp(code) {
+    const { remove } = this.props;
+
+    switch (code) {
+      case 8:
+        remove();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  handleKeyDown(event) {
+    const { addNextBlock } = this.props;
+
+    switch (event.keyCode || event.which) {
+      case 13:
+        event.preventDefault();
+
+        addNextBlock();
+        break;
+
+      default:
+        break;
+    }
+  }
+
   render() {
     const {
       onChange,
@@ -166,6 +197,11 @@ class ImageInput extends PureComponent<Props> {
               <input
                 ref={input}
                 key={inputKey}
+                onKeyDown={e => this.handleKeyDown(e)}
+                onKeyUp={({
+                  keyCode,
+                  which,
+                }) => this.handleKeyUp(keyCode || which)}
                 onChange={onChangeHook(onChange)}
                 style={this.styles.input}
                 accept="image/*"
@@ -189,6 +225,11 @@ class ImageInput extends PureComponent<Props> {
               <input
                 ref={input}
                 key={inputKey}
+                onKeyDown={e => this.handleKeyDown(e)}
+                onKeyUp={({
+                  keyCode,
+                  which,
+                }) => this.handleKeyUp(keyCode || which)}
                 onChange={onChangeHook(onChange)}
                 style={this.styles.input}
                 accept="image/*"
@@ -203,14 +244,18 @@ class ImageInput extends PureComponent<Props> {
 
 function ImageConfigHandler({
   onChange,
+  remove,
   input,
   value,
+  insertBlock,
 }: {
   onChange: Function,
+  remove: Function,
   input: {
     current: ?Node,
   },
   value: string,
+  insertBlock: Function,
 }) {
   return (
     <ConfigContext.Consumer>
@@ -223,6 +268,8 @@ function ImageConfigHandler({
         },
       }) => (
         <ImageInput
+          addNextBlock={() => insertBlock(TYPE_PARAGRAPH)}
+          remove={remove}
           onChangeHook={onChangeHook}
           onChange={onChange}
           value={getURL(value)}
