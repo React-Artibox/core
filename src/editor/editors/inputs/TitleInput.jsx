@@ -46,7 +46,7 @@ class TitleInput extends PureComponent<Props, State> {
       pointerEvents: 'none',
       color: 'default',
       wordWrap: 'break-word',
-      whiteSpace: 'pre-wrap',
+      whiteSpace: 'nowrap',
     },
   };
 
@@ -106,7 +106,7 @@ class TitleInput extends PureComponent<Props, State> {
           ref={input}
           onChange={({
             target: { value: v },
-          }) => onChange(v)}
+          }) => onChange((v || '').replace(/\r?\n/g, ' '))}
           value={value}
           onFocus={() => this.setState({ isFocus: true })}
           onBlur={() => this.setState({ isFocus: false })}
