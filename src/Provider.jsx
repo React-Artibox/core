@@ -243,9 +243,8 @@ export default class ArtiboxConfigProvider extends PureComponent<Props> {
     }
   }
 
-  updateValue(name, id, e) {
+  updateValue(name, id, value) {
     const { editors } = this.state;
-    const value = e.constructor.name === 'SyntheticEvent' ? e.target.value : e;
     const blockIndex = editors[name].blocks.findIndex(b => b.id === id);
 
     if (!~blockIndex) {
