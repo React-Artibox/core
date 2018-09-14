@@ -3,15 +3,14 @@
     ["@babel/preset-env", {
       "targets": {
         "browsers": ["last 2 versions"],
-        "node": "current",
       },
     }],
+    "@babel/flow",
     "@babel/react",
   ],
   "plugins": [
     "@babel/transform-runtime",
     "@babel/plugin-proposal-class-properties",
-    "@babel/transform-flow-strip-types",
     "react-hot-loader/babel",
   ],
 }

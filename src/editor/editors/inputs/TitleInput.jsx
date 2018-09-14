@@ -104,7 +104,9 @@ class TitleInput extends PureComponent<Props, State> {
             which,
           }) => this.handleKeyUp(keyCode || which)}
           ref={input}
-          onChange={onChange}
+          onChange={({
+            target: { value: v },
+          }) => onChange(v)}
           value={value}
           onFocus={() => this.setState({ isFocus: true })}
           onBlur={() => this.setState({ isFocus: false })}
