@@ -60,6 +60,7 @@ class ArtiboxEditorWrapper extends PureComponent<Props> {
     },
     header: {
       width: '100%',
+      margin: '0 0 -32px 0',
     },
     topActions: {
       display: 'flex',
@@ -72,6 +73,7 @@ class ArtiboxEditorWrapper extends PureComponent<Props> {
       display: 'block',
       overflow: 'auto',
       flexGrow: 1,
+      padding: '32px 0 0 0',
     },
   }
 

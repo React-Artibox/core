@@ -89,6 +89,9 @@ class ParagraphInput extends RangeHandler<Props> {
       cursor: 'pointer',
       height: '100%',
       lineHeight: '26px',
+      outline: 'none',
+      border: 0,
+      backgroundColor: 'transparent',
     },
     triangle: {
       borderTop: '6px solid #121212',
@@ -156,79 +159,6 @@ class ParagraphInput extends RangeHandler<Props> {
   static DESC_HIGHLIGHT_SYMBOL = '*';
 
   static DESC_LINK_SYMBOL_FROM = 48;
-
-  static wrapDescriptions(value, descriptions) {
-    const wrappedStrings = [];
-
-    if (!descriptions.length) return value;
-
-    let workingDescIndex = 0;
-    let nodeContent = '';
-    let concatingType = null;
-
-    Array.from(value).forEach((char, index) => {
-      if (index === descriptions[workingDescIndex].to) {
-        // Flush
-        switch (concatingType) {
-          case ParagraphInput.DESC_HIGHLIGHT:
-            wrappedStrings.push((
-              <span key={workingDescIndex} style={this.styles.highlight}>{nodeContent}</span>
-            ));
-
-            nodeContent = '';
-            break;
-
-          case ParagraphInput.DESC_LINK:
-            wrappedStrings.push((
-              <a
-                rel="noopener noreferrer"
-                href={descriptions[workingDescIndex].url}
-                target="_blank"
-                key={workingDescIndex}
-                style={this.styles.link}>
-                {nodeContent}
-              </a>
-            ));
-
-            nodeContent = '';
-            break;
-
-          default:
-            wrappedStrings.push(nodeContent);
-
-            nodeContent = '';
-            break;
-        }
-
-        if (descriptions[workingDescIndex + 1]) {
-          workingDescIndex += 1;
-        }
-      }
-
-      if (index === descriptions[workingDescIndex].from) {
-        // Flush Plain Text
-        switch (concatingType) {
-          default:
-            wrappedStrings.push(nodeContent);
-
-            nodeContent = '';
-            break;
-        }
-
-        concatingType = descriptions[workingDescIndex].type;
-      }
-
-      nodeContent = `${nodeContent}${char}`;
-    });
-
-    wrappedStrings.push(nodeContent);
-
-    return (
-      <Fragment>
-        {wrappedStrings}
-      </Fragment>
-    );
-  }
 
   state = {
     isFocus: false,
@@ -324,6 +254,79 @@ class ParagraphInput extends RangeHandler<Props> {
       menuX: (selectionX + ((width - menuWidth) / 2)) - parentX,
       menuY: selectionY - parentY - 32,
     });
+  }
+
+  wrapDescriptions(value, descriptions) {
+    const wrappedStrings = [];
+
+    if (!descriptions.length) return value;
+
+    let workingDescIndex = 0;
+    let nodeContent = '';
+    let concatingType = null;
+
+    Array.from(value).forEach((char, index) => {
+      if (index === descriptions[workingDescIndex].to) {
+        // Flush
+        switch (concatingType) {
+          case ParagraphInput.DESC_HIGHLIGHT:
+            wrappedStrings.push((
+              <span key={workingDescIndex} style={this.styles.highlight}>{nodeContent}</span>
+            ));
+
+            nodeContent = '';
+            break;
+
+          case ParagraphInput.DESC_LINK:
+            wrappedStrings.push((
+              <a
+                rel="noopener noreferrer"
+                href={descriptions[workingDescIndex].url}
+                target="_blank"
+                key={workingDescIndex}
+                style={this.styles.link}>
+                {nodeContent}
+              </a>
+            ));
+
+            nodeContent = '';
+            break;
+
+          default:
+            wrappedStrings.push(nodeContent);
+
+            nodeContent = '';
+            break;
+        }
+
+        if (descriptions[workingDescIndex + 1]) {
+          workingDescIndex += 1;
+        }
+      }
+
+      if (index === descriptions[workingDescIndex].from) {
+        // Flush Plain Text
+        switch (concatingType) {
+          default:
+            wrappedStrings.push(nodeContent);
+
+            nodeContent = '';
+            break;
+        }
+
+        concatingType = descriptions[workingDescIndex].type;
+      }
+
+      nodeContent = `${nodeContent}${char}`;
+    });
+
+    wrappedStrings.push(nodeContent);
+
+    return (
+      <Fragment>
+        {wrappedStrings}
+      </Fragment>
+    );
   }
 
   updateHeight() {
@@ -539,7 +542,7 @@ class ParagraphInput extends RangeHandler<Props> {
             ...this.styles.input,
             ...this.styles.preview,
           }}>
-          {ParagraphInput.wrapDescriptions(value, descriptions)}
+          {this.wrapDescriptions(value, descriptions)}
         </div>
         <div
           ref={this.menu}
